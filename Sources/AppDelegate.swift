@@ -24,8 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func buildMainViewController() -> UIViewController {
-        let signalClient = SignalingClient(serverUrl: self.config.signalingServerUrl)
-        let webRTCClient = WebRTCClient(iceServers: self.config.webRTCIceServers)
+        let signalClient = SignalingClient(serverUrl: config.signalingServerUrl)
+        let webRTCClient = WebRTCClient(iceServers: config.webRTCIceServers)
         let mainViewController = MainViewController(signalClient: signalClient,
                                                     webRTCClient: webRTCClient)
         let navViewController = UINavigationController(rootViewController: mainViewController)
