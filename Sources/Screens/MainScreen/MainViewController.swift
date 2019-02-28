@@ -106,7 +106,7 @@ class MainViewController: UIViewController {
 	}
 	
 	@IBAction private func offerDidTap(_ sender: UIButton) {
-		self.webRTCClient.offer { (sdp) in
+		webRTCClient.offer { sdp in
 			self.hasLocalSdp = true
 			self.signalClient.send(sdp: sdp)
 		}

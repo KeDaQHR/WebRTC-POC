@@ -65,14 +65,11 @@ final class WebRTCClient: NSObject {
 	
 	// MARK: Signaling
 	func offer(completion: @escaping (_ sdp: RTCSessionDescription) -> Void) {
-		let constrains = RTCMediaConstraints(mandatoryConstraints: self.mediaConstrains,
+		let constrains = RTCMediaConstraints(mandatoryConstraints: mediaConstrains,
 																				 optionalConstraints: nil)
-		self.peerConnection.offer(for: constrains) { (sdp, error) in
-			guard let sdp = sdp else {
-				return
-			}
-			
-			self.peerConnection.setLocalDescription(sdp, completionHandler: { (error) in
+		peerConnection.offer(for: constrains) { sdp, error in
+			guard let sdp = sdp else { return }
+			self.peerConnection.setLocalDescription(sdp, completionHandler: { error in
 				completion(sdp)
 			})
 		}
@@ -147,19 +144,19 @@ final class WebRTCClient: NSObject {
 		let streamId = "stream"
 		
 		// Audio
-		let audioTrack = self.createAudioTrack()
-		self.peerConnection.add(audioTrack, streamIds: [streamId])
+		let audioTrack = createAudioTrack()
+		peerConnection.add(audioTrack, streamIds: [streamId])
 		
 		// Video
-		let videoTrack = self.createVideoTrack()
-		self.localVideoTrack = videoTrack
-		self.peerConnection.add(videoTrack, streamIds: [streamId])
-		self.remoteVideoTrack = self.peerConnection.transceivers.first { $0.mediaType == .video }?.receiver.track as? RTCVideoTrack
+		let videoTrack = createVideoTrack()
+		localVideoTrack = videoTrack
+		peerConnection.add(videoTrack, streamIds: [streamId])
+		remoteVideoTrack = peerConnection.transceivers.first { $0.mediaType == .video }?.receiver.track as? RTCVideoTrack
 		
 		// Data
 		if let dataChannel = createDataChannel() {
 			dataChannel.delegate = self
-			self.localDataChannel = dataChannel
+			localDataChannel = dataChannel
 		}
 	}
 	
