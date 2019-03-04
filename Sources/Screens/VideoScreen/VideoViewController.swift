@@ -10,6 +10,8 @@ import UIKit
 
 class VideoViewController: UIViewController {
 	
+	// MARK: - Outlets
+	
 	@IBOutlet private var localVideoView: UIView!
 	@IBOutlet private var statusLabel: UILabel!
 	@IBOutlet private var flipCameraButton: UIButton!
@@ -30,10 +32,24 @@ class VideoViewController: UIViewController {
 	}
 	
 	@IBAction func audioStatusToggled(_ sender: Any) {
-		
+		mute.toggle()
+		if mute {
+			webRTCClient.muteAudio()
+		} else {
+			webRTCClient.unmuteAudio()
+		}
 	}
 	
+	// MARK: - Properties
+	
 	private let webRTCClient: WebRTCClient
+	
+	private var mute: Bool = false {
+		didSet {
+			let statusImage = mute ? #imageLiteral(resourceName: "AudioIconOff") : #imageLiteral(resourceName: "AudioIconOn")
+			audioControlButton?.setImage(statusImage, for: .normal)
+		}
+	}
 	
 	init(webRTCClient: WebRTCClient) {
 		self.webRTCClient = webRTCClient

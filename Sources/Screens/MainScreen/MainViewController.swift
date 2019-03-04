@@ -21,7 +21,6 @@ class MainViewController: UIViewController {
 	@IBOutlet private weak var remoteCandidatesLabel: UILabel?
 	@IBOutlet private weak var webRTCStatusLabel: UILabel?
 	
-	@IBOutlet private weak var muteButton: UIButton?
 	@IBOutlet private weak var speakerButton: UIButton?
 	
 	private var signalingConnected: Bool = false {
@@ -69,13 +68,6 @@ class MainViewController: UIViewController {
 		didSet {
 			let title = "Speaker: \(speakerOn ? "On" : "Off" )"
 			speakerButton?.setTitle(title, for: .normal)
-		}
-	}
-	
-	private var mute: Bool = false {
-		didSet {
-			let title = "Mute: \(mute ? "on" : "off")"
-			muteButton?.setTitle(title, for: .normal)
 		}
 	}
 	
@@ -132,15 +124,6 @@ class MainViewController: UIViewController {
 	@IBAction private func videoDidTap(_ sender: UIButton) {
 		let vc = VideoViewController(webRTCClient: webRTCClient)
 		present(vc, animated: true)
-	}
-	
-	@IBAction private func muteDidTap(_ sender: UIButton) {
-		mute.toggle()
-		if mute {
-			webRTCClient.muteAudio()
-		} else {
-			webRTCClient.unmuteAudio()
-		}
 	}
 	
 	@IBAction func sendDataDidTap(_ sender: UIButton) {
