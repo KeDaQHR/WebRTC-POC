@@ -30,7 +30,12 @@ class VideoViewController: UIViewController {
 	}
 	
 	@IBAction func cameraToggled(_ sender: Any) {
-		
+		isFrontCamera.toggle()
+		if isFrontCamera {
+			webRTCClient.useFrontCamera()
+		} else {
+			webRTCClient.useBackCamera()
+		}
 	}
 	
 	@IBAction private func videoStatusToggled(_ sender: Any) {
@@ -77,6 +82,13 @@ class VideoViewController: UIViewController {
 		didSet {
 			let statusImage = isSendingVideo ? #imageLiteral(resourceName: "VideoIconOn") : #imageLiteral(resourceName: "VideoIconOff")
 			videoControlButton?.setImage(statusImage, for: .normal)
+		}
+	}
+	
+	private var isFrontCamera: Bool = true {
+		didSet {
+			let title = "Camera: \(isFrontCamera ? "Front" : "Back" )"
+			flipCameraButton.setTitle(title, for: .normal)
 		}
 	}
 	

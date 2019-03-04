@@ -33,6 +33,7 @@ final class WebRTCClient: NSObject {
 	private let mediaConstrains = [kRTCMediaConstraintsOfferToReceiveAudio: kRTCMediaConstraintsValueTrue,
 																 kRTCMediaConstraintsOfferToReceiveVideo: kRTCMediaConstraintsValueTrue]
 	private var videoCapturer: RTCVideoCapturer?
+	private var localVideoRenderer: RTCVideoRenderer?
 	private var localVideoTrack: RTCVideoTrack?
 	private var remoteVideoTrack: RTCVideoTrack?
 	private var localDataChannel: RTCDataChannel?
@@ -95,13 +96,13 @@ final class WebRTCClient: NSObject {
 	}
 	
 	// MARK: Media
-	func startCaptureLocalVideo(renderer: RTCVideoRenderer) {
+	func startCaptureLocalVideo(renderer: RTCVideoRenderer, cameraPoistion: AVCaptureDevice.Position = .front) {
 		guard let capturer = videoCapturer as? RTCCameraVideoCapturer else { return }
 		
-		guard let frontCamera = (RTCCameraVideoCapturer.captureDevices().first { $0.position == .front }),
+		guard let camera = (RTCCameraVideoCapturer.captureDevices().first { $0.position ==  cameraPoistion }),
 			
 			// choose highest res
-			let format = (RTCCameraVideoCapturer.supportedFormats(for: frontCamera).sorted { (f1, f2) -> Bool in
+			let format = (RTCCameraVideoCapturer.supportedFormats(for: camera).sorted { (f1, f2) -> Bool in
 				let width1 = CMVideoFormatDescriptionGetDimensions(f1.formatDescription).width
 				let width2 = CMVideoFormatDescriptionGetDimensions(f2.formatDescription).width
 				return width1 < width2
@@ -112,19 +113,21 @@ final class WebRTCClient: NSObject {
 				return
 		}
 		
-		capturer.startCapture(with: frontCamera,
+		capturer.startCapture(with: camera,
 													format: format,
 													fps: Int(fps.maxFrameRate))
 		
 		localVideoTrack?.add(renderer)
+		localVideoRenderer = renderer
 	}
 	
 	func stopCaptureLocalVideo(renderer: RTCVideoRenderer) {
 		localVideoTrack?.remove(renderer)
+		localVideoRenderer = nil
 	}
 	
 	func renderRemoteVideo(to renderer: RTCVideoRenderer) {
-		self.remoteVideoTrack?.add(renderer)
+		remoteVideoTrack?.add(renderer)
 	}
 	
 	private func configureAudioSession() {
@@ -251,6 +254,18 @@ extension WebRTCClient {
 	
 	func enableVideo() {
 		setVideoEnabled(true)
+	}
+	
+	func useFrontCamera() {
+		guard let renderer = localVideoRenderer else { return }
+		stopCaptureLocalVideo(renderer: renderer)
+		startCaptureLocalVideo(renderer: renderer, cameraPoistion: .front)
+	}
+	
+	func useBackCamera() {
+		guard let renderer = localVideoRenderer else { return }
+		stopCaptureLocalVideo(renderer: renderer)
+		startCaptureLocalVideo(renderer: renderer, cameraPoistion: .back)
 	}
 	
 	// Fallback to the default playing device: headphones/bluetooth/ear speaker
