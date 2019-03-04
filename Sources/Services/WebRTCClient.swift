@@ -96,12 +96,9 @@ final class WebRTCClient: NSObject {
 	
 	// MARK: Media
 	func startCaptureLocalVideo(renderer: RTCVideoRenderer) {
-		guard let capturer = self.videoCapturer as? RTCCameraVideoCapturer else {
-			return
-		}
+		guard let capturer = videoCapturer as? RTCCameraVideoCapturer else { return }
 		
-		guard
-			let frontCamera = (RTCCameraVideoCapturer.captureDevices().first { $0.position == .front }),
+		guard let frontCamera = (RTCCameraVideoCapturer.captureDevices().first { $0.position == .front }),
 			
 			// choose highest res
 			let format = (RTCCameraVideoCapturer.supportedFormats(for: frontCamera).sorted { (f1, f2) -> Bool in
@@ -119,7 +116,7 @@ final class WebRTCClient: NSObject {
 													format: format,
 													fps: Int(fps.maxFrameRate))
 		
-		self.localVideoTrack?.add(renderer)
+		localVideoTrack?.add(renderer)
 	}
 	
 	func stopCaptureLocalVideo(renderer: RTCVideoRenderer) {
@@ -241,20 +238,25 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
 // MARK:- Audio control
 extension WebRTCClient {
 	func muteAudio() {
-		self.setAudioEnabled(false)
+		setAudioEnabled(false)
 	}
 	
 	func unmuteAudio() {
-		self.setAudioEnabled(true)
+		setAudioEnabled(true)
+	}
+	
+	func disableVideo() {
+		setVideoEnabled(false)
+	}
+	
+	func enableVideo() {
+		setVideoEnabled(true)
 	}
 	
 	// Fallback to the default playing device: headphones/bluetooth/ear speaker
 	func speakerOff() {
 		self.audioQueue.async { [weak self] in
-			guard let self = self else {
-				return
-			}
-			
+			guard let self = self else { return }
 			self.rtcAudioSession.lockForConfiguration()
 			do {
 				try self.rtcAudioSession.setCategory(AVAudioSession.Category.playAndRecord.rawValue)
@@ -268,11 +270,8 @@ extension WebRTCClient {
 	
 	// Force speaker
 	func speakerOn() {
-		self.audioQueue.async { [weak self] in
-			guard let self = self else {
-				return
-			}
-			
+		audioQueue.async { [weak self] in
+			guard let self = self else { return }
 			self.rtcAudioSession.lockForConfiguration()
 			do {
 				try self.rtcAudioSession.setCategory(AVAudioSession.Category.playAndRecord.rawValue)
@@ -288,6 +287,11 @@ extension WebRTCClient {
 	private func setAudioEnabled(_ isEnabled: Bool) {
 		let audioTracks = peerConnection.transceivers.compactMap { return $0.sender.track as? RTCAudioTrack }
 		audioTracks.forEach { $0.isEnabled = isEnabled }
+	}
+	
+	private func setVideoEnabled(_ isEnabled: Bool) {
+		let videoTracks = peerConnection.transceivers.compactMap { return $0.sender.track as? RTCVideoTrack }
+		videoTracks.forEach { $0.isEnabled = isEnabled }
 	}
 }
 

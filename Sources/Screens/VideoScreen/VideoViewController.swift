@@ -14,17 +14,32 @@ class VideoViewController: UIViewController {
 	
 	@IBOutlet private var localVideoView: UIView!
 	@IBOutlet private var statusLabel: UILabel!
+	@IBOutlet private var speakerToggleButton: UIButton!
 	@IBOutlet private var flipCameraButton: UIButton!
 	@IBOutlet private var videoControlButton: UIButton!
 	@IBOutlet private var endCallButton: UIButton!
 	@IBOutlet private var audioControlButton: UIButton!
+	
+	@IBAction func speakerToggled(_ sender: Any) {
+		speakerOn.toggle()
+		if speakerOn {
+			webRTCClient.speakerOn()
+		} else {
+			webRTCClient.speakerOff()
+		}
+	}
 	
 	@IBAction func cameraToggled(_ sender: Any) {
 		
 	}
 	
 	@IBAction private func videoStatusToggled(_ sender: Any) {
-		
+		isSendingVideo.toggle()
+		if isSendingVideo {
+			webRTCClient.enableVideo()
+		} else {
+			webRTCClient.disableVideo()
+		}
 	}
 	
 	@IBAction private func endCallButtonTapped(_ sender: Any) {
@@ -48,6 +63,20 @@ class VideoViewController: UIViewController {
 		didSet {
 			let statusImage = mute ? #imageLiteral(resourceName: "AudioIconOff") : #imageLiteral(resourceName: "AudioIconOn")
 			audioControlButton?.setImage(statusImage, for: .normal)
+		}
+	}
+	
+	private var speakerOn: Bool = true {
+		didSet {
+			let title = "Speaker: \(speakerOn ? "On" : "Off" )"
+			speakerToggleButton?.setTitle(title, for: .normal)
+		}
+	}
+	
+	private var isSendingVideo: Bool = true {
+		didSet {
+			let statusImage = isSendingVideo ? #imageLiteral(resourceName: "VideoIconOn") : #imageLiteral(resourceName: "VideoIconOff")
+			videoControlButton?.setImage(statusImage, for: .normal)
 		}
 	}
 	

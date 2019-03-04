@@ -64,13 +64,6 @@ class MainViewController: UIViewController {
 		}
 	}
 	
-	private var speakerOn: Bool = false {
-		didSet {
-			let title = "Speaker: \(speakerOn ? "On" : "Off" )"
-			speakerButton?.setTitle(title, for: .normal)
-		}
-	}
-	
 	init(signalClient: SignalingClient, webRTCClient: WebRTCClient) {
 		self.signalClient = signalClient
 		self.webRTCClient = webRTCClient
@@ -90,7 +83,6 @@ class MainViewController: UIViewController {
 		hasRemoteSdp = false
 		localCandidateCount = 0
 		remoteCandidateCount = 0
-		speakerOn = false
 		webRTCStatusLabel?.text = "New"
 		
 		signalClient.connect()
@@ -110,15 +102,6 @@ class MainViewController: UIViewController {
 			self.hasLocalSdp = true
 			self.signalClient.send(sdp: localSdp)
 		}
-	}
-	
-	@IBAction private func speakerDidTap(_ sender: UIButton) {
-		if speakerOn {
-			webRTCClient.speakerOff()
-		} else {
-			webRTCClient.speakerOn()
-		}
-		speakerOn.toggle()
 	}
 	
 	@IBAction private func videoDidTap(_ sender: UIButton) {
