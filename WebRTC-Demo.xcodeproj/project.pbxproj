@@ -22,6 +22,8 @@
 		798FBA472200F681009F525E /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 798FBA462200F681009F525E /* MainViewController.xib */; };
 		798FBA492200F9A9009F525E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 798FBA482200F9A9009F525E /* LaunchScreen.storyboard */; };
 		A3736211ED520122E5DBF999 /* libPods-WebRTC-Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F59EEC794858CDDF75D2F2 /* libPods-WebRTC-Demo.a */; };
+		F01BA9DE222D782500BC3671 /* IPInputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01BA9DD222D782500BC3671 /* IPInputController.swift */; };
+		F01BA9E0222D784400BC3671 /* IPInputController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F01BA9DF222D784400BC3671 /* IPInputController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +50,8 @@
 		9ED93846F4CF300F5D5F104C /* Pods-WebRTC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebRTC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WebRTC/Pods-WebRTC.debug.xcconfig"; sourceTree = "<group>"; };
 		A930FC9FB2A066EE0A3E2176 /* Pods-WebRTC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebRTC.release.xcconfig"; path = "Pods/Target Support Files/Pods-WebRTC/Pods-WebRTC.release.xcconfig"; sourceTree = "<group>"; };
 		CA606D7CF8E980599582389C /* libPods-WebRTC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WebRTC.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F01BA9DD222D782500BC3671 /* IPInputController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPInputController.swift; sourceTree = "<group>"; };
+		F01BA9DF222D784400BC3671 /* IPInputController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IPInputController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +158,7 @@
 		798FBA442200F510009F525E /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				F01BA9DC222D77FA00BC3671 /* IPAddressInput */,
 				7921989F220107C90051F03F /* MainScreen */,
 				792198A0220107E30051F03F /* VideoScreen */,
 			);
@@ -177,6 +182,15 @@
 				27F59EEC794858CDDF75D2F2 /* libPods-WebRTC-Demo.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F01BA9DC222D77FA00BC3671 /* IPAddressInput */ = {
+			isa = PBXGroup;
+			children = (
+				F01BA9DD222D782500BC3671 /* IPInputController.swift */,
+				F01BA9DF222D784400BC3671 /* IPInputController.xib */,
+			);
+			path = IPAddressInput;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,6 +254,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F01BA9E0222D784400BC3671 /* IPInputController.xib in Resources */,
 				79262EEE20B0D6F800D576C1 /* Assets.xcassets in Resources */,
 				798FBA472200F681009F525E /* MainViewController.xib in Resources */,
 				79177CAA20B2283F00BCD399 /* VideoViewController.xib in Resources */,
@@ -294,6 +309,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				79262EE920B0D6F600D576C1 /* MainViewController.swift in Sources */,
+				F01BA9DE222D782500BC3671 /* IPInputController.swift in Sources */,
 				792198A222011A450051F03F /* Config.swift in Sources */,
 				79177CA820B2276400BCD399 /* VideoViewController.swift in Sources */,
 				79262EE720B0D6F600D576C1 /* AppDelegate.swift in Sources */,

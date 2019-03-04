@@ -113,7 +113,7 @@ class MainViewController: UIViewController {
 	}
 	
 	@IBAction private func answerDidTap(_ sender: UIButton) {
-		self.webRTCClient.answer { (localSdp) in
+		webRTCClient.answer { localSdp in
 			self.hasLocalSdp = true
 			self.signalClient.send(sdp: localSdp)
 		}
@@ -148,41 +148,41 @@ class MainViewController: UIViewController {
 		let alert = UIAlertController(title: "Send a message to the other peer",
 																	message: "This will be transferred over WebRTC data channel",
 																	preferredStyle: .alert)
-		alert.addTextField { (textField) in
+		alert.addTextField { textField in
 			textField.placeholder = "Message to send"
 		}
-		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 		alert.addAction(UIAlertAction(title: "Send", style: .default, handler: { [weak self, unowned alert] _ in
 			guard let dataToSend = alert.textFields?.first?.text?.data(using: .utf8) else {
 				return
 			}
 			self?.webRTCClient.sendData(dataToSend)
 		}))
-		self.present(alert, animated: true, completion: nil)
+		present(alert, animated: true)
 	}
 }
 
 extension MainViewController: SignalClientDelegate {
 	
 	func signalClientDidConnect(_ signalClient: SignalingClient) {
-		self.signalingConnected = true
+		signalingConnected = true
 	}
 	
 	func signalClientDidDisconnect(_ signalClient: SignalingClient) {
-		self.signalingConnected = false
+		signalingConnected = false
 	}
 	
 	func signalClient(_ signalClient: SignalingClient, didReceiveRemoteSdp sdp: RTCSessionDescription) {
 		print("Received remote sdp")
-		self.webRTCClient.set(remoteSdp: sdp) { (error) in
+		webRTCClient.set(remoteSdp: sdp) { error in
 			self.hasRemoteSdp = true
 		}
 	}
 	
 	func signalClient(_ signalClient: SignalingClient, didReceiveCandidate candidate: RTCIceCandidate) {
 		print("Received remote candidate")
-		self.remoteCandidateCount += 1
-		self.webRTCClient.set(remoteCandidate: candidate)
+		remoteCandidateCount += 1
+		webRTCClient.set(remoteCandidate: candidate)
 	}
 }
 
@@ -190,8 +190,8 @@ extension MainViewController: WebRTCClientDelegate {
 	
 	func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate) {
 		print("discovered local candidate")
-		self.localCandidateCount += 1
-		self.signalClient.send(candidate: candidate)
+		localCandidateCount += 1
+		signalClient.send(candidate: candidate)
 	}
 	
 	func webRTCClient(_ client: WebRTCClient, didChangeConnectionState state: RTCIceConnectionState) {

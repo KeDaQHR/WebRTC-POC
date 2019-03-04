@@ -9,7 +9,7 @@
 import Foundation
 
 // Set this to the machine's address which runs the signaling server
-fileprivate let defaultSignalingServerUrl = URL(string: "ws://192.168.0.223:8080/")!
+fileprivate let defaultSignalingServerUrl = URL(string: "ws://192.168.45.99:8080/")!
 
 // We use Google's public stun servers. For production apps you should deploy your own stun/turn servers.
 fileprivate let defaultIceServers = ["stun:stun.l.google.com:19302",
@@ -22,5 +22,6 @@ struct Config {
     let signalingServerUrl: URL
     let webRTCIceServers: [String]
     
-    static let `default` = Config(signalingServerUrl: defaultSignalingServerUrl, webRTCIceServers: defaultIceServers)
+    static let `default` = Config(signalingServerUrl: defaultSignalingServerUrl,
+																	webRTCIceServers: defaultIceServers)
 }

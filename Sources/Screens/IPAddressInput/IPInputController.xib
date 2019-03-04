@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IPInputController" customModule="WebRTC_Demo" customModuleProvider="target">
+            <connections>
+                <outlet property="IPInputField" destination="N8C-o6-aP1" id="SKZ-tr-W1S"/>
+                <outlet property="view" destination="iN0-l3-epB" id="T4O-r2-gZ0"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="N8C-o6-aP1">
+                    <rect key="frame" x="40" y="141" width="200" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="200" id="ApU-C2-M7u"/>
+                        <constraint firstAttribute="height" constant="50" id="lop-SK-9FH"/>
+                    </constraints>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input server IP" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="acf-u4-Oa1">
+                    <rect key="frame" x="40" y="100" width="111" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wjC-ct-1bu">
+                    <rect key="frame" x="40" y="211" width="62" height="30"/>
+                    <state key="normal" title="Continue"/>
+                    <connections>
+                        <action selector="continueTapped:" destination="-1" eventType="touchUpInside" id="r0Y-Oc-cTT"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="acf-u4-Oa1" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="80" id="5wc-rB-21I"/>
+                <constraint firstItem="acf-u4-Oa1" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="40" id="QzN-nI-yvK"/>
+                <constraint firstItem="wjC-ct-1bu" firstAttribute="leading" secondItem="N8C-o6-aP1" secondAttribute="leading" id="WJz-Df-cm2"/>
+                <constraint firstItem="N8C-o6-aP1" firstAttribute="top" secondItem="acf-u4-Oa1" secondAttribute="bottom" constant="20" id="ak4-jN-QuV"/>
+                <constraint firstItem="acf-u4-Oa1" firstAttribute="leading" secondItem="N8C-o6-aP1" secondAttribute="leading" id="tHf-AJ-xMQ"/>
+                <constraint firstItem="wjC-ct-1bu" firstAttribute="top" secondItem="N8C-o6-aP1" secondAttribute="bottom" constant="20" id="uM1-S6-0kk"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+        </view>
+    </objects>
+</document>
