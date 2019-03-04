@@ -14,6 +14,7 @@
             <connections>
                 <outlet property="audioControlButton" destination="Xcx-Za-xN6" id="AQM-FT-Vex"/>
                 <outlet property="endCallButton" destination="N0c-WK-c8E" id="Psv-dV-yJC"/>
+                <outlet property="flipCameraButton" destination="C3m-jz-0Ul" id="A2g-Ib-uLn"/>
                 <outlet property="localVideoView" destination="AOt-yj-kPb" id="Dck-BK-47J"/>
                 <outlet property="statusLabel" destination="Pco-vz-uUs" id="dRx-h1-uy7"/>
                 <outlet property="videoControlButton" destination="oxe-Wo-WgJ" id="UEf-CY-2jK"/>
@@ -55,8 +56,15 @@
                         <action selector="audioStatusToggled:" destination="-1" eventType="touchUpInside" id="JSl-pa-ekc"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pco-vz-uUs" userLabel="StatusLabel">
-                    <rect key="frame" x="168" y="60" width="39.5" height="19.5"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C3m-jz-0Ul">
+                    <rect key="frame" x="149.5" y="523" width="76" height="30"/>
+                    <state key="normal" title="flip camera"/>
+                    <connections>
+                        <action selector="cameraToggled:" destination="-1" eventType="touchUpInside" id="020-m5-bfE"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pco-vz-uUs" userLabel="StatusLabel">
+                    <rect key="frame" x="142" y="493" width="91" height="20"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -64,12 +72,14 @@
             </subviews>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="Pco-vz-uUs" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="0hP-j2-bX8"/>
                 <constraint firstItem="N0c-WK-c8E" firstAttribute="leading" secondItem="oxe-Wo-WgJ" secondAttribute="trailing" constant="24" id="4Rp-Vj-NXj"/>
+                <constraint firstItem="C3m-jz-0Ul" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="8YK-hS-o2G"/>
+                <constraint firstItem="Pco-vz-uUs" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="92r-B8-SLi"/>
                 <constraint firstItem="AOt-yj-kPb" firstAttribute="top" secondItem="pxm-TL-5nk" secondAttribute="top" constant="20" id="I61-xE-IwH"/>
                 <constraint firstItem="Xcx-Za-xN6" firstAttribute="leading" secondItem="N0c-WK-c8E" secondAttribute="trailing" constant="24" id="JKr-gj-gBh"/>
-                <constraint firstItem="Pco-vz-uUs" firstAttribute="top" secondItem="pxm-TL-5nk" secondAttribute="top" constant="40" id="Pco-Gx-Q6J"/>
                 <constraint firstItem="Xcx-Za-xN6" firstAttribute="centerY" secondItem="N0c-WK-c8E" secondAttribute="centerY" id="Wyt-Be-0dR"/>
+                <constraint firstItem="C3m-jz-0Ul" firstAttribute="top" secondItem="Pco-vz-uUs" secondAttribute="bottom" constant="10" id="fR4-mc-u2S"/>
+                <constraint firstItem="N0c-WK-c8E" firstAttribute="top" secondItem="C3m-jz-0Ul" secondAttribute="bottom" constant="10" id="ldc-zY-a9K"/>
                 <constraint firstItem="pxm-TL-5nk" firstAttribute="bottom" secondItem="N0c-WK-c8E" secondAttribute="bottom" constant="46" id="oA4-n1-1oX"/>
                 <constraint firstItem="oxe-Wo-WgJ" firstAttribute="centerY" secondItem="N0c-WK-c8E" secondAttribute="centerY" id="wR5-ev-FaL"/>
                 <constraint firstItem="N0c-WK-c8E" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="wex-2s-W6R"/>

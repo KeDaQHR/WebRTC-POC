@@ -12,9 +12,14 @@ class VideoViewController: UIViewController {
 	
 	@IBOutlet private var localVideoView: UIView!
 	@IBOutlet private var statusLabel: UILabel!
+	@IBOutlet private var flipCameraButton: UIButton!
 	@IBOutlet private var videoControlButton: UIButton!
 	@IBOutlet private var endCallButton: UIButton!
 	@IBOutlet private var audioControlButton: UIButton!
+	
+	@IBAction func cameraToggled(_ sender: Any) {
+		
+	}
 	
 	@IBAction private func videoStatusToggled(_ sender: Any) {
 		

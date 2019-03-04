@@ -14,14 +14,15 @@ class MainViewController: UIViewController {
 	private let signalClient: SignalingClient
 	private let webRTCClient: WebRTCClient
 	
-	@IBOutlet private weak var speakerButton: UIButton?
 	@IBOutlet private weak var signalingStatusLabel: UILabel?
 	@IBOutlet private weak var localSdpStatusLabel: UILabel?
 	@IBOutlet private weak var localCandidatesLabel: UILabel?
 	@IBOutlet private weak var remoteSdpStatusLabel: UILabel?
 	@IBOutlet private weak var remoteCandidatesLabel: UILabel?
-	@IBOutlet private weak var muteButton: UIButton?
 	@IBOutlet private weak var webRTCStatusLabel: UILabel?
+	
+	@IBOutlet private weak var muteButton: UIButton?
+	@IBOutlet private weak var speakerButton: UIButton?
 	
 	private var signalingConnected: Bool = false {
 		didSet {
@@ -120,27 +121,25 @@ class MainViewController: UIViewController {
 	}
 	
 	@IBAction private func speakerDidTap(_ sender: UIButton) {
-		if self.speakerOn {
-			self.webRTCClient.speakerOff()
+		if speakerOn {
+			webRTCClient.speakerOff()
+		} else {
+			webRTCClient.speakerOn()
 		}
-		else {
-			self.webRTCClient.speakerOn()
-		}
-		self.speakerOn = !self.speakerOn
+		speakerOn.toggle()
 	}
 	
 	@IBAction private func videoDidTap(_ sender: UIButton) {
-		let vc = VideoViewController(webRTCClient: self.webRTCClient)
-		self.present(vc, animated: true, completion: nil)
+		let vc = VideoViewController(webRTCClient: webRTCClient)
+		present(vc, animated: true)
 	}
 	
 	@IBAction private func muteDidTap(_ sender: UIButton) {
-		self.mute = !self.mute
-		if self.mute {
-			self.webRTCClient.muteAudio()
-		}
-		else {
-			self.webRTCClient.unmuteAudio()
+		mute.toggle()
+		if mute {
+			webRTCClient.muteAudio()
+		} else {
+			webRTCClient.unmuteAudio()
 		}
 	}
 	
@@ -216,8 +215,8 @@ extension MainViewController: WebRTCClientDelegate {
 		DispatchQueue.main.async {
 			let message = String(data: data, encoding: .utf8) ?? "(Binary: \(data.count) bytes)"
 			let alert = UIAlertController(title: "Message from WebRTC", message: message, preferredStyle: .alert)
-			alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-			self.present(alert, animated: true, completion: nil)
+			alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+			self.present(alert, animated: true)
 		}
 	}
 }
