@@ -23,6 +23,6 @@ class IPInputController: UIViewController {
 		super.viewDidLoad()
 		
 		// Default IP address
-		IPInputField.text = "192.168.45.99:8080"
+		IPInputField.text = "192.168.45.115:8080"
 	}
 }

@@ -23,6 +23,7 @@
 		A3736211ED520122E5DBF999 /* libPods-WebRTC-Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F59EEC794858CDDF75D2F2 /* libPods-WebRTC-Demo.a */; };
 		F01BA9DE222D782500BC3671 /* IPInputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01BA9DD222D782500BC3671 /* IPInputController.swift */; };
 		F01BA9E0222D784400BC3671 /* IPInputController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F01BA9DF222D784400BC3671 /* IPInputController.xib */; };
+		F04EAC29222F607E000A25B8 /* MapleRTCVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04EAC28222F607E000A25B8 /* MapleRTCVideoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		CA606D7CF8E980599582389C /* libPods-WebRTC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WebRTC.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F01BA9DD222D782500BC3671 /* IPInputController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPInputController.swift; sourceTree = "<group>"; };
 		F01BA9DF222D784400BC3671 /* IPInputController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IPInputController.xib; sourceTree = "<group>"; };
+		F04EAC28222F607E000A25B8 /* MapleRTCVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapleRTCVideoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +157,7 @@
 		798FBA442200F510009F525E /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				F04EAC27222F6024000A25B8 /* RTCComponents */,
 				F01BA9DC222D77FA00BC3671 /* IPAddressInput */,
 				7921989F220107C90051F03F /* MainScreen */,
 				792198A0220107E30051F03F /* VideoScreen */,
@@ -188,6 +191,14 @@
 				F01BA9DF222D784400BC3671 /* IPInputController.xib */,
 			);
 			path = IPAddressInput;
+			sourceTree = "<group>";
+		};
+		F04EAC27222F6024000A25B8 /* RTCComponents */ = {
+			isa = PBXGroup;
+			children = (
+				F04EAC28222F607E000A25B8 /* MapleRTCVideoView.swift */,
+			);
+			path = RTCComponents;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,6 +321,7 @@
 				79177CA820B2276400BCD399 /* VideoViewController.swift in Sources */,
 				79262EE720B0D6F600D576C1 /* AppDelegate.swift in Sources */,
 				795A4A26221E081A00F8BB03 /* SessionDescription.swift in Sources */,
+				F04EAC29222F607E000A25B8 /* MapleRTCVideoView.swift in Sources */,
 				79177CA620B1F76E00BCD399 /* RTCStates.swift in Sources */,
 				79177C9920B0DF2700BCD399 /* SignalingClient.swift in Sources */,
 				795A4A2A221E0FB100F8BB03 /* Message.swift in Sources */,

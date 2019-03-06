@@ -12,7 +12,8 @@ class VideoViewController: UIViewController {
 	
 	// MARK: - Outlets
 	
-	@IBOutlet private var localVideoView: UIView!
+	@IBOutlet private var localVideoViewContainer: UIView!
+	@IBOutlet private var remoteVideoViewContainer: UIView!
 	@IBOutlet private var statusLabel: UILabel!
 	@IBOutlet private var speakerToggleButton: UIButton!
 	@IBOutlet private var flipCameraButton: UIButton!
@@ -82,6 +83,7 @@ class VideoViewController: UIViewController {
 		didSet {
 			let statusImage = isSendingVideo ? #imageLiteral(resourceName: "VideoIconOn") : #imageLiteral(resourceName: "VideoIconOff")
 			videoControlButton?.setImage(statusImage, for: .normal)
+			(localVideoViewContainer.subviews.first as! RTCVideoView).isVideoBlocked = !isSendingVideo
 		}
 	}
 	
@@ -104,26 +106,20 @@ class VideoViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		let localVideoView = RTCVideoView(frame: localVideoViewContainer?.frame ?? CGRect.zero)
+		let remoteVideoView = RTCVideoView(frame: view.frame)
+		webRTCClient.startCaptureLocalVideo(renderer: localVideoView.renderer)
+		webRTCClient.renderRemoteVideo(to: remoteVideoView.renderer)
 		
-		#if arch(arm64)
-		// Using metal (arm64 only)
-		let localRenderer = RTCMTLVideoView(frame: localVideoView?.frame ?? CGRect.zero)
-		let remoteRenderer = RTCMTLVideoView(frame: view.frame)
-		localRenderer.videoContentMode = .scaleAspectFill
-		remoteRenderer.videoContentMode = .scaleAspectFill
-
-		#else
-		// Using OpenGLES for the rest
-		let localRenderer = RTCEAGLVideoView(frame: localVideoView?.frame ?? CGRect.zero)
-		let remoteRenderer = RTCEAGLVideoView(frame: view.frame)
-		#endif
+		embedView(localVideoView, into: localVideoViewContainer)
+		embedView(remoteVideoView, into: remoteVideoViewContainer)
+		view.sendSubviewToBack(remoteVideoView)
 		
-		webRTCClient.startCaptureLocalVideo(renderer: localRenderer)
-		webRTCClient.renderRemoteVideo(to: remoteRenderer)
-		
-		embedView(localRenderer, into: localVideoView)
-		embedView(remoteRenderer, into: view)
-		view.sendSubviewToBack(remoteRenderer)
+		// Beautify localVideoView border
+		localVideoViewContainer.clipsToBounds = true
+		localVideoViewContainer.layer.borderWidth = 2.0
+		localVideoViewContainer.layer.borderColor = UIColor.white.cgColor
+		localVideoViewContainer.layer.cornerRadius = 5.0
 	}
 	
 	private func embedView(_ view: UIView, into containerView: UIView) {

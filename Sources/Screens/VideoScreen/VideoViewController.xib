@@ -15,7 +15,8 @@
                 <outlet property="audioControlButton" destination="Xcx-Za-xN6" id="AQM-FT-Vex"/>
                 <outlet property="endCallButton" destination="N0c-WK-c8E" id="Psv-dV-yJC"/>
                 <outlet property="flipCameraButton" destination="C3m-jz-0Ul" id="A2g-Ib-uLn"/>
-                <outlet property="localVideoView" destination="AOt-yj-kPb" id="Dck-BK-47J"/>
+                <outlet property="localVideoViewContainer" destination="AOt-yj-kPb" id="uOO-K5-NcI"/>
+                <outlet property="remoteVideoViewContainer" destination="Pie-RP-oOG" id="RyK-T3-INw"/>
                 <outlet property="speakerToggleButton" destination="SXB-6J-9WN" id="QvG-z5-DTb"/>
                 <outlet property="statusLabel" destination="Pco-vz-uUs" id="dRx-h1-uy7"/>
                 <outlet property="videoControlButton" destination="oxe-Wo-WgJ" id="UEf-CY-2jK"/>
@@ -27,7 +28,11 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AOt-yj-kPb">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pie-RP-oOG" userLabel="RemoteVideoViewContainer">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AOt-yj-kPb" userLabel="LocalVideoViewContainer">
                     <rect key="frame" x="255" y="40" width="100" height="150"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
@@ -87,6 +92,7 @@
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="N0c-WK-c8E" firstAttribute="leading" secondItem="oxe-Wo-WgJ" secondAttribute="trailing" constant="24" id="4Rp-Vj-NXj"/>
+                <constraint firstItem="pxm-TL-5nk" firstAttribute="trailing" secondItem="Pie-RP-oOG" secondAttribute="trailing" id="8Tk-St-oTc"/>
                 <constraint firstItem="C3m-jz-0Ul" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="8YK-hS-o2G"/>
                 <constraint firstItem="Pco-vz-uUs" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="92r-B8-SLi"/>
                 <constraint firstItem="SXB-6J-9WN" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="BMZ-1F-InS"/>
@@ -94,7 +100,10 @@
                 <constraint firstItem="Xcx-Za-xN6" firstAttribute="leading" secondItem="N0c-WK-c8E" secondAttribute="trailing" constant="24" id="JKr-gj-gBh"/>
                 <constraint firstItem="Xcx-Za-xN6" firstAttribute="centerY" secondItem="N0c-WK-c8E" secondAttribute="centerY" id="Wyt-Be-0dR"/>
                 <constraint firstItem="C3m-jz-0Ul" firstAttribute="top" secondItem="SXB-6J-9WN" secondAttribute="bottom" constant="8" id="YBI-Ks-mBz"/>
+                <constraint firstItem="Pie-RP-oOG" firstAttribute="leading" secondItem="pxm-TL-5nk" secondAttribute="leading" id="dCO-4u-9lC"/>
+                <constraint firstItem="pxm-TL-5nk" firstAttribute="bottom" secondItem="Pie-RP-oOG" secondAttribute="bottom" id="h3s-OT-RlU"/>
                 <constraint firstItem="N0c-WK-c8E" firstAttribute="top" secondItem="C3m-jz-0Ul" secondAttribute="bottom" constant="10" id="ldc-zY-a9K"/>
+                <constraint firstItem="Pie-RP-oOG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="n8D-9E-Fgu"/>
                 <constraint firstItem="pxm-TL-5nk" firstAttribute="bottom" secondItem="N0c-WK-c8E" secondAttribute="bottom" constant="46" id="oA4-n1-1oX"/>
                 <constraint firstItem="SXB-6J-9WN" firstAttribute="top" secondItem="Pco-vz-uUs" secondAttribute="bottom" constant="8" id="tBS-xh-yUc"/>
                 <constraint firstItem="oxe-Wo-WgJ" firstAttribute="centerY" secondItem="N0c-WK-c8E" secondAttribute="centerY" id="wR5-ev-FaL"/>
@@ -102,6 +111,7 @@
                 <constraint firstItem="pxm-TL-5nk" firstAttribute="trailing" secondItem="AOt-yj-kPb" secondAttribute="trailing" constant="20" id="yin-ba-ibE"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="pxm-TL-5nk"/>
+            <point key="canvasLocation" x="138.40000000000001" y="152.47376311844079"/>
         </view>
     </objects>
     <resources>
