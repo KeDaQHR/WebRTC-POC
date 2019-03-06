@@ -58,9 +58,24 @@ class VideoViewController: UIViewController {
 	
 	// MARK: - Open Properties
 	
+	// Set this to update connection status
 	var statusDescription: String? {
 		didSet {
 			statusLabel.text = statusDescription
+		}
+	}
+	
+	// Set this to update remote video block/unblock status
+	var isRemoteVideoBlocked: Bool = false {
+		didSet {
+			remoteVideoView?.isVideoBlocked = isRemoteVideoBlocked
+		}
+	}
+	
+	// Set this to update remote audio block/unblock status
+	var isRemoteAudioBlocked: Bool = false {
+		didSet {
+			remoteVideoView?.isAudioBlocked = isRemoteAudioBlocked
 		}
 	}
 	
@@ -103,6 +118,10 @@ class VideoViewController: UIViewController {
 	init(webRTCClient: WebRTCClient) {
 		self.webRTCClient = webRTCClient
 		super.init(nibName: String(describing: VideoViewController.self), bundle: Bundle.main)
+	}
+	
+	deinit {
+		debugPrint("--- VideoViewController is gone")
 	}
 	
 	@available(*, unavailable)
