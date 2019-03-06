@@ -10,27 +10,22 @@ import UIKit
 
 class VideoViewController: UIViewController {
 	
-	// MARK: - Outlets
+	// MARK: - Outlet Functions
 	
-	@IBOutlet private var localVideoViewContainer: UIView!
-	@IBOutlet private var remoteVideoViewContainer: UIView!
-	@IBOutlet private var statusLabel: UILabel!
-	@IBOutlet private var speakerToggleButton: UIButton!
-	@IBOutlet private var flipCameraButton: UIButton!
-	@IBOutlet private var videoControlButton: UIButton!
-	@IBOutlet private var endCallButton: UIButton!
-	@IBOutlet private var audioControlButton: UIButton!
+	@IBAction func minimizeButtonTapped(_ sender: Any) {
+		dismiss(animated: true)
+	}
 	
-	@IBAction func speakerToggled(_ sender: Any) {
-		speakerOn.toggle()
-		if speakerOn {
+	@IBAction func speakerStatusToggled(_ sender: Any) {
+		isSpeakerOn.toggle()
+		if isSpeakerOn {
 			webRTCClient.speakerOn()
 		} else {
 			webRTCClient.speakerOff()
 		}
 	}
 	
-	@IBAction func cameraToggled(_ sender: Any) {
+	@IBAction func cameraPositionToggled(_ sender: Any) {
 		isFrontCamera.toggle()
 		if isFrontCamera {
 			webRTCClient.useFrontCamera()
@@ -40,59 +35,70 @@ class VideoViewController: UIViewController {
 	}
 	
 	@IBAction private func videoStatusToggled(_ sender: Any) {
-		isSendingVideo.toggle()
-		if isSendingVideo {
-			webRTCClient.enableVideo()
-		} else {
+		isVideoBlocked.toggle()
+		if isVideoBlocked {
 			webRTCClient.disableVideo()
+		} else {
+			webRTCClient.enableVideo()
 		}
 	}
 	
 	@IBAction private func endCallButtonTapped(_ sender: Any) {
-		dismiss(animated: true)
+		//TODO: End call
 	}
 	
 	@IBAction func audioStatusToggled(_ sender: Any) {
-		mute.toggle()
-		if mute {
+		isAudioBlocked.toggle()
+		if isAudioBlocked {
 			webRTCClient.muteAudio()
 		} else {
 			webRTCClient.unmuteAudio()
 		}
 	}
 	
-	// MARK: - Properties
+	// MARK: - Open Properties
+	
+	var statusDescription: String? {
+		didSet {
+			statusLabel.text = statusDescription
+		}
+	}
+	
+	// MARK: - Private Properties
 	
 	private let webRTCClient: WebRTCClient
 	
-	private var mute: Bool = false {
+	private var isSpeakerOn: Bool = true {
 		didSet {
-			let statusImage = mute ? #imageLiteral(resourceName: "AudioIconOff") : #imageLiteral(resourceName: "AudioIconOn")
-			audioControlButton?.setImage(statusImage, for: .normal)
-		}
-	}
-	
-	private var speakerOn: Bool = true {
-		didSet {
-			let title = "Speaker: \(speakerOn ? "On" : "Off" )"
-			speakerToggleButton?.setTitle(title, for: .normal)
-		}
-	}
-	
-	private var isSendingVideo: Bool = true {
-		didSet {
-			let statusImage = isSendingVideo ? #imageLiteral(resourceName: "VideoIconOn") : #imageLiteral(resourceName: "VideoIconOff")
-			videoControlButton?.setImage(statusImage, for: .normal)
-			(localVideoViewContainer.subviews.first as! RTCVideoView).isVideoBlocked = !isSendingVideo
+			let title = "Speaker: \(isSpeakerOn ? "On" : "Off" )"
+			speakerStatusButton?.setTitle(title, for: .normal)
 		}
 	}
 	
 	private var isFrontCamera: Bool = true {
 		didSet {
 			let title = "Camera: \(isFrontCamera ? "Front" : "Back" )"
-			flipCameraButton.setTitle(title, for: .normal)
+			cameraPositionButton.setTitle(title, for: .normal)
 		}
 	}
+	
+	private var isAudioBlocked: Bool = false {
+		didSet {
+			let statusImage = isAudioBlocked ? #imageLiteral(resourceName: "AudioIconOff") : #imageLiteral(resourceName: "AudioIconOn")
+			audioStatusButton?.setImage(statusImage, for: .normal)
+			localVideoView?.isAudioBlocked = isAudioBlocked
+		}
+	}
+	
+	private var isVideoBlocked: Bool = false {
+		didSet {
+			let statusImage = isVideoBlocked ? #imageLiteral(resourceName: "VideoIconOff") : #imageLiteral(resourceName: "VideoIconOn")
+			videoStatusButton?.setImage(statusImage, for: .normal)
+			localVideoView?.isVideoBlocked = isVideoBlocked
+		}
+	}
+	
+	// MARK: - Life Cycle
 	
 	init(webRTCClient: WebRTCClient) {
 		self.webRTCClient = webRTCClient
@@ -106,14 +112,22 @@ class VideoViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		let localVideoView = RTCVideoView(frame: localVideoViewContainer?.frame ?? CGRect.zero)
-		let remoteVideoView = RTCVideoView(frame: view.frame)
-		webRTCClient.startCaptureLocalVideo(renderer: localVideoView.renderer)
-		webRTCClient.renderRemoteVideo(to: remoteVideoView.renderer)
 		
-		embedView(localVideoView, into: localVideoViewContainer)
-		embedView(remoteVideoView, into: remoteVideoViewContainer)
-		view.sendSubviewToBack(remoteVideoView)
+		localVideoView = RTCVideoView(frame: localVideoViewContainer?.frame ?? CGRect.zero)
+		remoteVideoView = RTCVideoView(frame: view.frame)
+		
+		webRTCClient.startCaptureLocalVideo(renderer: localVideoView!.renderer)
+		webRTCClient.renderRemoteVideo(to: remoteVideoView!.renderer)
+		
+		embedView(localVideoView!, into: localVideoViewContainer)
+		embedView(remoteVideoView!, into: remoteVideoViewContainer)
+		view.sendSubviewToBack(remoteVideoViewContainer)
+		
+		// Set up the initial status
+		isSpeakerOn = true
+		isFrontCamera = true
+		isAudioBlocked = false
+		isVideoBlocked = false
 		
 		// Beautify localVideoView border
 		localVideoViewContainer.clipsToBounds = true
@@ -133,4 +147,25 @@ class VideoViewController: UIViewController {
 		])
 		containerView.layoutIfNeeded()
 	}
+	
+	// MARK: - Private UI
+	
+	@IBOutlet private var localVideoViewContainer: UIView!
+	@IBOutlet private var remoteVideoViewContainer: UIView!
+	
+	private var localVideoView: RTCVideoView?
+	private var remoteVideoView: RTCVideoView?
+	
+	// Show the current call status like "connecting...", "poor connection", etc
+	@IBOutlet private var statusLabel: UILabel!
+	// Toggle speaker on/off
+	@IBOutlet private var speakerStatusButton: UIButton!
+	// Toggle camera position to front/back
+	@IBOutlet private var cameraPositionButton: UIButton!
+	// Toggle to let your peer see you or not
+	@IBOutlet private var videoStatusButton: UIButton!
+	// Toggle to let your peer hear you or not
+	@IBOutlet private var audioStatusButton: UIButton!
+	// End the call
+	@IBOutlet private var endCallButton: UIButton!
 }

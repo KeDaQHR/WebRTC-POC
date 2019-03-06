@@ -17,7 +17,6 @@
                 <outlet property="remoteCandidatesLabel" destination="pnF-0b-tqS" id="yaC-Y1-V61"/>
                 <outlet property="remoteSdpStatusLabel" destination="vnU-tf-1SZ" id="Z3X-Z7-wz9"/>
                 <outlet property="signalingStatusLabel" destination="2vW-Ad-Yxa" id="pXQ-P3-1Eq"/>
-                <outlet property="speakerButton" destination="S3A-iF-y59" id="QSV-4p-TtX"/>
                 <outlet property="view" destination="tgE-oa-dOK" id="Cma-i2-dnj"/>
                 <outlet property="webRTCStatusLabel" destination="xYX-mQ-1tb" id="vDE-Ut-EHN"/>
             </connections>
@@ -108,13 +107,6 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S3A-iF-y59">
-                    <rect key="frame" x="20" y="519" width="56" height="30"/>
-                    <state key="normal" title="Speaker"/>
-                    <connections>
-                        <action selector="speakerDidTap:" destination="-1" eventType="touchUpInside" id="sar-D8-lYV"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ibb-KE-sVk">
                     <rect key="frame" x="315" y="519" width="40" height="30"/>
                     <state key="normal" title="Video"/>
@@ -170,8 +162,6 @@
                 <constraint firstItem="pnF-0b-tqS" firstAttribute="leading" secondItem="fY5-qQ-oOI" secondAttribute="trailing" constant="10" id="Z0r-h6-PP3"/>
                 <constraint firstItem="xYX-mQ-1tb" firstAttribute="top" secondItem="B4A-b9-XWx" secondAttribute="bottom" constant="8" id="aE8-f1-hl7"/>
                 <constraint firstItem="fY5-qQ-oOI" firstAttribute="leading" secondItem="ZBg-a1-eEf" secondAttribute="leading" id="exU-Sf-5lP"/>
-                <constraint firstItem="xPu-fe-sIe" firstAttribute="top" secondItem="S3A-iF-y59" secondAttribute="bottom" constant="8" id="hak-az-mdo"/>
-                <constraint firstItem="S3A-iF-y59" firstAttribute="leading" secondItem="ltd-4m-UTj" secondAttribute="leading" constant="20" id="jMp-ia-jr5"/>
                 <constraint firstItem="xPu-fe-sIe" firstAttribute="height" secondItem="Iv3-su-6Ge" secondAttribute="height" id="jUi-7D-Uud"/>
                 <constraint firstItem="8EY-e0-8HZ" firstAttribute="leading" secondItem="f7d-GP-pOe" secondAttribute="trailing" constant="10" id="kP5-JC-Bru"/>
                 <constraint firstItem="Iv3-su-6Ge" firstAttribute="leading" secondItem="ltd-4m-UTj" secondAttribute="leading" constant="20" id="kvG-tA-rQS"/>

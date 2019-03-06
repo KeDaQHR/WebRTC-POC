@@ -8,6 +8,7 @@
 
 import UIKit
 
+// This class is just wrapper around RTCMTLVideoView/RTCEAGLVideoView to give it the ability to show videoBlocked/audioBlocked status
 class RTCVideoView: UIView {
 	
 	// MARK: - Public Properties

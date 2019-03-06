@@ -240,6 +240,7 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
 
 // MARK:- Audio control
 extension WebRTCClient {
+	
 	func muteAudio() {
 		setAudioEnabled(false)
 	}
@@ -247,6 +248,44 @@ extension WebRTCClient {
 	func unmuteAudio() {
 		setAudioEnabled(true)
 	}
+	
+	// Fallback to the default playing device: headphones/bluetooth/ear speaker
+	func speakerOff() {
+		audioQueue.async { [weak self] in
+			self?.rtcAudioSession.lockForConfiguration()
+			do {
+				try self?.rtcAudioSession.setCategory(AVAudioSession.Category.playAndRecord.rawValue)
+				try self?.rtcAudioSession.overrideOutputAudioPort(.none)
+			} catch let error {
+				debugPrint("Error setting AVAudioSession category: \(error)")
+			}
+			self?.rtcAudioSession.unlockForConfiguration()
+		}
+	}
+	
+	// Force speaker
+	func speakerOn() {
+		audioQueue.async { [weak self] in
+			self?.rtcAudioSession.lockForConfiguration()
+			do {
+				try self?.rtcAudioSession.setCategory(AVAudioSession.Category.playAndRecord.rawValue)
+				try self?.rtcAudioSession.overrideOutputAudioPort(.speaker)
+				try self?.rtcAudioSession.setActive(true)
+			} catch let error {
+				debugPrint("Couldn't force audio to speaker: \(error)")
+			}
+			self?.rtcAudioSession.unlockForConfiguration()
+		}
+	}
+	
+	private func setAudioEnabled(_ isEnabled: Bool) {
+		let audioTracks = peerConnection.transceivers.compactMap { return $0.sender.track as? RTCAudioTrack }
+		audioTracks.forEach { $0.isEnabled = isEnabled }
+	}
+}
+
+// MARK:- Video control
+extension WebRTCClient {
 	
 	func disableVideo() {
 		setVideoEnabled(false)
@@ -266,42 +305,6 @@ extension WebRTCClient {
 		guard let renderer = localVideoRenderer else { return }
 		stopCaptureLocalVideo(renderer: renderer)
 		startCaptureLocalVideo(renderer: renderer, cameraPoistion: .back)
-	}
-	
-	// Fallback to the default playing device: headphones/bluetooth/ear speaker
-	func speakerOff() {
-		self.audioQueue.async { [weak self] in
-			guard let self = self else { return }
-			self.rtcAudioSession.lockForConfiguration()
-			do {
-				try self.rtcAudioSession.setCategory(AVAudioSession.Category.playAndRecord.rawValue)
-				try self.rtcAudioSession.overrideOutputAudioPort(.none)
-			} catch let error {
-				debugPrint("Error setting AVAudioSession category: \(error)")
-			}
-			self.rtcAudioSession.unlockForConfiguration()
-		}
-	}
-	
-	// Force speaker
-	func speakerOn() {
-		audioQueue.async { [weak self] in
-			guard let self = self else { return }
-			self.rtcAudioSession.lockForConfiguration()
-			do {
-				try self.rtcAudioSession.setCategory(AVAudioSession.Category.playAndRecord.rawValue)
-				try self.rtcAudioSession.overrideOutputAudioPort(.speaker)
-				try self.rtcAudioSession.setActive(true)
-			} catch let error {
-				debugPrint("Couldn't force audio to speaker: \(error)")
-			}
-			self.rtcAudioSession.unlockForConfiguration()
-		}
-	}
-	
-	private func setAudioEnabled(_ isEnabled: Bool) {
-		let audioTracks = peerConnection.transceivers.compactMap { return $0.sender.track as? RTCAudioTrack }
-		audioTracks.forEach { $0.isEnabled = isEnabled }
 	}
 	
 	private func setVideoEnabled(_ isEnabled: Bool) {

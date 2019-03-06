@@ -21,8 +21,6 @@ class MainViewController: UIViewController {
 	@IBOutlet private weak var remoteCandidatesLabel: UILabel?
 	@IBOutlet private weak var webRTCStatusLabel: UILabel?
 	
-	@IBOutlet private weak var speakerButton: UIButton?
-	
 	private var signalingConnected: Bool = false {
 		didSet {
 			DispatchQueue.main.async {

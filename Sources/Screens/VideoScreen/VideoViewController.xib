@@ -12,14 +12,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VideoViewController" customModule="WebRTC_Demo" customModuleProvider="target">
             <connections>
-                <outlet property="audioControlButton" destination="Xcx-Za-xN6" id="AQM-FT-Vex"/>
+                <outlet property="audioStatusButton" destination="Xcx-Za-xN6" id="Fzh-zZ-I8b"/>
+                <outlet property="cameraPositionButton" destination="C3m-jz-0Ul" id="sVi-1J-bb4"/>
                 <outlet property="endCallButton" destination="N0c-WK-c8E" id="Psv-dV-yJC"/>
-                <outlet property="flipCameraButton" destination="C3m-jz-0Ul" id="A2g-Ib-uLn"/>
                 <outlet property="localVideoViewContainer" destination="AOt-yj-kPb" id="uOO-K5-NcI"/>
                 <outlet property="remoteVideoViewContainer" destination="Pie-RP-oOG" id="RyK-T3-INw"/>
-                <outlet property="speakerToggleButton" destination="SXB-6J-9WN" id="QvG-z5-DTb"/>
+                <outlet property="speakerStatusButton" destination="SXB-6J-9WN" id="tBb-YS-Y3e"/>
                 <outlet property="statusLabel" destination="Pco-vz-uUs" id="dRx-h1-uy7"/>
-                <outlet property="videoControlButton" destination="oxe-Wo-WgJ" id="UEf-CY-2jK"/>
+                <outlet property="videoStatusButton" destination="oxe-Wo-WgJ" id="4RE-lG-fAr"/>
                 <outlet property="view" destination="iN0-l3-epB" id="t0K-uJ-o5K"/>
             </connections>
         </placeholder>
@@ -40,8 +40,14 @@
                         <constraint firstAttribute="height" constant="150" id="XBP-Et-Mtp"/>
                     </constraints>
                 </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pco-vz-uUs" userLabel="StatusLabel">
+                    <rect key="frame" x="20" y="40" width="95" height="20"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="0.48019595529999998" blue="0.2986588342" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N0c-WK-c8E" userLabel="EndCallButton">
-                    <rect key="frame" x="158.5" y="563" width="58" height="58"/>
+                    <rect key="frame" x="158.5" y="559" width="58" height="58"/>
                     <viewLayoutGuide key="safeArea" id="w2x-l1-7Sg"/>
                     <state key="normal" image="CallIconOn"/>
                     <connections>
@@ -49,43 +55,47 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oxe-Wo-WgJ" userLabel="VideoControlButton">
-                    <rect key="frame" x="76.5" y="563" width="58" height="58"/>
+                    <rect key="frame" x="76.5" y="559" width="58" height="58"/>
                     <state key="normal" image="VideoIconOn"/>
                     <connections>
-                        <action selector="videoStatusToggled:" destination="-1" eventType="touchUpInside" id="7ZG-Ql-ozI"/>
+                        <action selector="videoStatusToggled:" destination="-1" eventType="touchUpInside" id="yeq-Z6-S7H"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xcx-Za-xN6" userLabel="AudioControlButton">
-                    <rect key="frame" x="240.5" y="563" width="58" height="58"/>
+                    <rect key="frame" x="240.5" y="559" width="58" height="58"/>
                     <state key="normal" image="AudioIconOn"/>
                     <connections>
-                        <action selector="audioStatusToggled:" destination="-1" eventType="touchUpInside" id="JSl-pa-ekc"/>
+                        <action selector="audioStatusToggled:" destination="-1" eventType="touchUpInside" id="MsB-ia-9gt"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C3m-jz-0Ul">
-                    <rect key="frame" x="145" y="520" width="85" height="33"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" title="flip camera">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <rect key="frame" x="20" y="507" width="155" height="36"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                    <state key="normal" title="Camera Position">
+                        <color key="titleColor" red="1" green="0.42058538829999997" blue="0.1783885697" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="cameraToggled:" destination="-1" eventType="touchUpInside" id="020-m5-bfE"/>
+                        <action selector="cameraPositionToggled:" destination="-1" eventType="touchUpInside" id="MVN-6p-Rrh"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pco-vz-uUs" userLabel="StatusLabel">
-                    <rect key="frame" x="140" y="451" width="95" height="20"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SXB-6J-9WN">
-                    <rect key="frame" x="130.5" y="479" width="114" height="33"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" title="toggle speaker">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <rect key="frame" x="20" y="463" width="144" height="36"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                    <state key="normal" title="Speaker Status">
+                        <color key="titleColor" red="1" green="0.42058538829999997" blue="0.1783885697" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="speakerToggled:" destination="-1" eventType="touchUpInside" id="cp8-fw-tNO"/>
+                        <action selector="speakerStatusToggled:" destination="-1" eventType="touchUpInside" id="HN9-hw-5FH"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OCL-vX-Rz5">
+                    <rect key="frame" x="20" y="419" width="85" height="36"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                    <state key="normal" title="Minimize">
+                        <color key="titleColor" red="1" green="0.48019595529999998" blue="0.2986588342" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="minimizeButtonTapped:" destination="-1" eventType="touchUpInside" id="aLI-dh-H1e"/>
                     </connections>
                 </button>
             </subviews>
@@ -93,19 +103,21 @@
             <constraints>
                 <constraint firstItem="N0c-WK-c8E" firstAttribute="leading" secondItem="oxe-Wo-WgJ" secondAttribute="trailing" constant="24" id="4Rp-Vj-NXj"/>
                 <constraint firstItem="pxm-TL-5nk" firstAttribute="trailing" secondItem="Pie-RP-oOG" secondAttribute="trailing" id="8Tk-St-oTc"/>
-                <constraint firstItem="C3m-jz-0Ul" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="8YK-hS-o2G"/>
-                <constraint firstItem="Pco-vz-uUs" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="92r-B8-SLi"/>
-                <constraint firstItem="SXB-6J-9WN" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="BMZ-1F-InS"/>
                 <constraint firstItem="AOt-yj-kPb" firstAttribute="top" secondItem="pxm-TL-5nk" secondAttribute="top" constant="20" id="I61-xE-IwH"/>
                 <constraint firstItem="Xcx-Za-xN6" firstAttribute="leading" secondItem="N0c-WK-c8E" secondAttribute="trailing" constant="24" id="JKr-gj-gBh"/>
+                <constraint firstItem="SXB-6J-9WN" firstAttribute="leading" secondItem="C3m-jz-0Ul" secondAttribute="leading" id="Jfd-fD-UUe"/>
+                <constraint firstItem="OCL-vX-Rz5" firstAttribute="leading" secondItem="SXB-6J-9WN" secondAttribute="leading" id="LJb-bx-Zli"/>
                 <constraint firstItem="Xcx-Za-xN6" firstAttribute="centerY" secondItem="N0c-WK-c8E" secondAttribute="centerY" id="Wyt-Be-0dR"/>
                 <constraint firstItem="C3m-jz-0Ul" firstAttribute="top" secondItem="SXB-6J-9WN" secondAttribute="bottom" constant="8" id="YBI-Ks-mBz"/>
+                <constraint firstItem="Pco-vz-uUs" firstAttribute="leading" secondItem="pxm-TL-5nk" secondAttribute="leading" constant="20" id="YbI-lk-gwg"/>
                 <constraint firstItem="Pie-RP-oOG" firstAttribute="leading" secondItem="pxm-TL-5nk" secondAttribute="leading" id="dCO-4u-9lC"/>
+                <constraint firstItem="SXB-6J-9WN" firstAttribute="top" secondItem="OCL-vX-Rz5" secondAttribute="bottom" constant="8" id="gBS-8Y-3Ma"/>
                 <constraint firstItem="pxm-TL-5nk" firstAttribute="bottom" secondItem="Pie-RP-oOG" secondAttribute="bottom" id="h3s-OT-RlU"/>
-                <constraint firstItem="N0c-WK-c8E" firstAttribute="top" secondItem="C3m-jz-0Ul" secondAttribute="bottom" constant="10" id="ldc-zY-a9K"/>
+                <constraint firstItem="N0c-WK-c8E" firstAttribute="top" secondItem="C3m-jz-0Ul" secondAttribute="bottom" constant="16" id="ldc-zY-a9K"/>
                 <constraint firstItem="Pie-RP-oOG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="n8D-9E-Fgu"/>
-                <constraint firstItem="pxm-TL-5nk" firstAttribute="bottom" secondItem="N0c-WK-c8E" secondAttribute="bottom" constant="46" id="oA4-n1-1oX"/>
-                <constraint firstItem="SXB-6J-9WN" firstAttribute="top" secondItem="Pco-vz-uUs" secondAttribute="bottom" constant="8" id="tBS-xh-yUc"/>
+                <constraint firstItem="C3m-jz-0Ul" firstAttribute="leading" secondItem="pxm-TL-5nk" secondAttribute="leading" constant="20" id="nTX-1M-vxi"/>
+                <constraint firstItem="pxm-TL-5nk" firstAttribute="bottom" secondItem="N0c-WK-c8E" secondAttribute="bottom" constant="50" id="oA4-n1-1oX"/>
+                <constraint firstItem="Pco-vz-uUs" firstAttribute="top" secondItem="pxm-TL-5nk" secondAttribute="top" constant="20" id="wDv-Cv-E1R"/>
                 <constraint firstItem="oxe-Wo-WgJ" firstAttribute="centerY" secondItem="N0c-WK-c8E" secondAttribute="centerY" id="wR5-ev-FaL"/>
                 <constraint firstItem="N0c-WK-c8E" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="wex-2s-W6R"/>
                 <constraint firstItem="pxm-TL-5nk" firstAttribute="trailing" secondItem="AOt-yj-kPb" secondAttribute="trailing" constant="20" id="yin-ba-ibE"/>
