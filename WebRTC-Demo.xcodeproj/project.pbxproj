@@ -13,12 +13,12 @@
 		79177CA820B2276400BCD399 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79177CA720B2276400BCD399 /* VideoViewController.swift */; };
 		79177CAA20B2283F00BCD399 /* VideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79177CA920B2283F00BCD399 /* VideoViewController.xib */; };
 		79262EE720B0D6F600D576C1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79262EE620B0D6F600D576C1 /* AppDelegate.swift */; };
-		79262EE920B0D6F600D576C1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79262EE820B0D6F600D576C1 /* MainViewController.swift */; };
+		79262EE920B0D6F600D576C1 /* WebRTCCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79262EE820B0D6F600D576C1 /* WebRTCCoordinator.swift */; };
 		79262EEE20B0D6F800D576C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79262EED20B0D6F800D576C1 /* Assets.xcassets */; };
 		795A4A26221E081A00F8BB03 /* SessionDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795A4A25221E081A00F8BB03 /* SessionDescription.swift */; };
 		795A4A28221E0A1B00F8BB03 /* IceCandidate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795A4A27221E0A1B00F8BB03 /* IceCandidate.swift */; };
 		795A4A2A221E0FB100F8BB03 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795A4A29221E0FB100F8BB03 /* Message.swift */; };
-		798FBA472200F681009F525E /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 798FBA462200F681009F525E /* MainViewController.xib */; };
+		798FBA472200F681009F525E /* WebRTCCoordinator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 798FBA462200F681009F525E /* WebRTCCoordinator.xib */; };
 		798FBA492200F9A9009F525E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 798FBA482200F9A9009F525E /* LaunchScreen.storyboard */; };
 		A3736211ED520122E5DBF999 /* libPods-WebRTC-Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F59EEC794858CDDF75D2F2 /* libPods-WebRTC-Demo.a */; };
 		F01BA9DE222D782500BC3671 /* IPInputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01BA9DD222D782500BC3671 /* IPInputController.swift */; };
@@ -38,13 +38,13 @@
 		79177CA920B2283F00BCD399 /* VideoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoViewController.xib; sourceTree = "<group>"; };
 		79262EE320B0D6F600D576C1 /* WebRTC-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WebRTC-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		79262EE620B0D6F600D576C1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		79262EE820B0D6F600D576C1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		79262EE820B0D6F600D576C1 /* WebRTCCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRTCCoordinator.swift; sourceTree = "<group>"; };
 		79262EED20B0D6F800D576C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79262EF220B0D6F800D576C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		795A4A25221E081A00F8BB03 /* SessionDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDescription.swift; sourceTree = "<group>"; };
 		795A4A27221E0A1B00F8BB03 /* IceCandidate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceCandidate.swift; sourceTree = "<group>"; };
 		795A4A29221E0FB100F8BB03 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
-		798FBA462200F681009F525E /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		798FBA462200F681009F525E /* WebRTCCoordinator.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebRTCCoordinator.xib; sourceTree = "<group>"; };
 		798FBA482200F9A9009F525E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9ED93846F4CF300F5D5F104C /* Pods-WebRTC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebRTC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WebRTC/Pods-WebRTC.debug.xcconfig"; sourceTree = "<group>"; };
 		A930FC9FB2A066EE0A3E2176 /* Pods-WebRTC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebRTC.release.xcconfig"; path = "Pods/Target Support Files/Pods-WebRTC/Pods-WebRTC.release.xcconfig"; sourceTree = "<group>"; };
@@ -108,8 +108,8 @@
 		7921989F220107C90051F03F /* MainScreen */ = {
 			isa = PBXGroup;
 			children = (
-				79262EE820B0D6F600D576C1 /* MainViewController.swift */,
-				798FBA462200F681009F525E /* MainViewController.xib */,
+				79262EE820B0D6F600D576C1 /* WebRTCCoordinator.swift */,
+				798FBA462200F681009F525E /* WebRTCCoordinator.xib */,
 			);
 			path = MainScreen;
 			sourceTree = "<group>";
@@ -264,7 +264,7 @@
 			files = (
 				F01BA9E0222D784400BC3671 /* IPInputController.xib in Resources */,
 				79262EEE20B0D6F800D576C1 /* Assets.xcassets in Resources */,
-				798FBA472200F681009F525E /* MainViewController.xib in Resources */,
+				798FBA472200F681009F525E /* WebRTCCoordinator.xib in Resources */,
 				79177CAA20B2283F00BCD399 /* VideoViewController.xib in Resources */,
 				798FBA492200F9A9009F525E /* LaunchScreen.storyboard in Resources */,
 			);
@@ -316,7 +316,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				79262EE920B0D6F600D576C1 /* MainViewController.swift in Sources */,
+				79262EE920B0D6F600D576C1 /* WebRTCCoordinator.swift in Sources */,
 				F01BA9DE222D782500BC3671 /* IPInputController.swift in Sources */,
 				79177CA820B2276400BCD399 /* VideoViewController.swift in Sources */,
 				79262EE720B0D6F600D576C1 /* AppDelegate.swift in Sources */,

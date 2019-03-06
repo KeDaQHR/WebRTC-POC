@@ -34,6 +34,7 @@ final class WebRTCClient: NSObject {
 																 kRTCMediaConstraintsOfferToReceiveVideo: kRTCMediaConstraintsValueTrue]
 	private var videoCapturer: RTCVideoCapturer?
 	private var localVideoRenderer: RTCVideoRenderer?
+	private var remoteVideoRenderer: RTCVideoRenderer?
 	private var localVideoTrack: RTCVideoTrack?
 	private var remoteVideoTrack: RTCVideoTrack?
 	private var localDataChannel: RTCDataChannel?
@@ -128,17 +129,23 @@ final class WebRTCClient: NSObject {
 	
 	func renderRemoteVideo(to renderer: RTCVideoRenderer) {
 		remoteVideoTrack?.add(renderer)
+		remoteVideoRenderer = renderer
+	}
+	
+	func stopRenderRemoteVideo(to renderer: RTCVideoRenderer) {
+		remoteVideoTrack?.remove(renderer)
+		remoteVideoRenderer = nil
 	}
 	
 	private func configureAudioSession() {
-		self.rtcAudioSession.lockForConfiguration()
+		rtcAudioSession.lockForConfiguration()
 		do {
-			try self.rtcAudioSession.setCategory(AVAudioSession.Category.playAndRecord.rawValue)
-			try self.rtcAudioSession.setMode(AVAudioSession.Mode.voiceChat.rawValue)
+			try rtcAudioSession.setCategory(AVAudioSession.Category.playAndRecord.rawValue)
+			try rtcAudioSession.setMode(AVAudioSession.Mode.voiceChat.rawValue)
 		} catch let error {
 			debugPrint("Error changeing AVAudioSession category: \(error)")
 		}
-		self.rtcAudioSession.unlockForConfiguration()
+		rtcAudioSession.unlockForConfiguration()
 	}
 	
 	private func createMediaSenders() {
@@ -179,62 +186,6 @@ final class WebRTCClient: NSObject {
 		
 		let videoTrack = WebRTCClient.factory.videoTrack(with: videoSource, trackId: "video0")
 		return videoTrack
-	}
-	
-	// MARK: Data Channels
-	private func createDataChannel() -> RTCDataChannel? {
-		let config = RTCDataChannelConfiguration()
-		guard let dataChannel = self.peerConnection.dataChannel(forLabel: "WebRTCData", configuration: config) else {
-			debugPrint("Warning: Couldn't create data channel.")
-			return nil
-		}
-		return dataChannel
-	}
-	
-	func sendData(_ data: Data) {
-		let buffer = RTCDataBuffer(data: data, isBinary: true)
-		remoteDataChannel?.sendData(buffer)
-	}
-}
-
-extension WebRTCClient: RTCPeerConnectionDelegate {
-	
-	func peerConnection(_ peerConnection: RTCPeerConnection, didChange stateChanged: RTCSignalingState) {
-		debugPrint("peerConnection new signaling state: \(stateChanged)")
-	}
-	
-	func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
-		debugPrint("peerConnection did add stream")
-	}
-	
-	func peerConnection(_ peerConnection: RTCPeerConnection, didRemove stream: RTCMediaStream) {
-		debugPrint("peerConnection did remote stream")
-	}
-	
-	func peerConnectionShouldNegotiate(_ peerConnection: RTCPeerConnection) {
-		debugPrint("peerConnection should negotiate")
-	}
-	
-	func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceConnectionState) {
-		debugPrint("peerConnection new connection state: \(newState)")
-		self.delegate?.webRTCClient(self, didChangeConnectionState: newState)
-	}
-	
-	func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceGatheringState) {
-		debugPrint("peerConnection new gathering state: \(newState)")
-	}
-	
-	func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
-		delegate?.webRTCClient(self, didDiscoverLocalCandidate: candidate)
-	}
-	
-	func peerConnection(_ peerConnection: RTCPeerConnection, didRemove candidates: [RTCIceCandidate]) {
-		debugPrint("peerConnection did remove candidate(s)")
-	}
-	
-	func peerConnection(_ peerConnection: RTCPeerConnection, didOpen dataChannel: RTCDataChannel) {
-		debugPrint("peerConnection did open data channel")
-		remoteDataChannel = dataChannel
 	}
 }
 
@@ -313,12 +264,72 @@ extension WebRTCClient {
 	}
 }
 
+// MARK: - RTCPeerConnectionDelegate
+extension WebRTCClient: RTCPeerConnectionDelegate {
+	
+	func peerConnection(_ peerConnection: RTCPeerConnection, didChange stateChanged: RTCSignalingState) {
+		debugPrint("peerConnection new signaling state: \(stateChanged)")
+	}
+	
+	func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
+		debugPrint("peerConnection did add stream")
+	}
+	
+	func peerConnection(_ peerConnection: RTCPeerConnection, didRemove stream: RTCMediaStream) {
+		debugPrint("peerConnection did remote stream")
+	}
+	
+	func peerConnectionShouldNegotiate(_ peerConnection: RTCPeerConnection) {
+		debugPrint("peerConnection should negotiate")
+	}
+	
+	func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceConnectionState) {
+		debugPrint("peerConnection new connection state: \(newState)")
+		self.delegate?.webRTCClient(self, didChangeConnectionState: newState)
+	}
+	
+	func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceGatheringState) {
+		debugPrint("peerConnection new gathering state: \(newState)")
+	}
+	
+	func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
+		delegate?.webRTCClient(self, didDiscoverLocalCandidate: candidate)
+	}
+	
+	func peerConnection(_ peerConnection: RTCPeerConnection, didRemove candidates: [RTCIceCandidate]) {
+		debugPrint("peerConnection did remove candidate(s)")
+	}
+	
+	func peerConnection(_ peerConnection: RTCPeerConnection, didOpen dataChannel: RTCDataChannel) {
+		debugPrint("peerConnection did open data channel")
+		remoteDataChannel = dataChannel
+	}
+}
+
+// MARK: - RTCDataChannel Functions and Delegates
 extension WebRTCClient: RTCDataChannelDelegate {
+	
+	// Functions
+	private func createDataChannel() -> RTCDataChannel? {
+		let config = RTCDataChannelConfiguration()
+		guard let dataChannel = self.peerConnection.dataChannel(forLabel: "WebRTCData", configuration: config) else {
+			debugPrint("Warning: Couldn't create data channel.")
+			return nil
+		}
+		return dataChannel
+	}
+	
+	func sendData(_ data: Data) {
+		let buffer = RTCDataBuffer(data: data, isBinary: true)
+		remoteDataChannel?.sendData(buffer)
+	}
+	
+	// Delegates
 	func dataChannelDidChangeState(_ dataChannel: RTCDataChannel) {
 		debugPrint("dataChannel did change state: \(dataChannel.readyState)")
 	}
 	
 	func dataChannel(_ dataChannel: RTCDataChannel, didReceiveMessageWith buffer: RTCDataBuffer) {
-		self.delegate?.webRTCClient(self, didReceiveData: buffer.data)
+		delegate?.webRTCClient(self, didReceiveData: buffer.data)
 	}
 }

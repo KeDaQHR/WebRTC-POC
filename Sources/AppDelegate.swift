@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let IPInputPage = IPInputController()
 		IPInputPage.onContinuePerformed = { [weak self] ipAddress in
 			guard let self = self else { return }
-			guard let mainPage = self.buildMainViewController(with: ipAddress) else { return }
+			guard let mainPage = self.buildCoordinator(with: ipAddress) else { return }
 			window.rootViewController?.present(mainPage, animated: true)
 		}
 		
@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		return true
 	}
 	
-	private func buildMainViewController(with IPAddress: String) -> UIViewController? {
+	private func buildCoordinator(with IPAddress: String) -> UIViewController? {
 		// Set this to the machine's address which runs the signaling server
 		guard let defaultSignalingServerUrl = URL(string: "ws://\(IPAddress)/") else {
 			return nil
@@ -45,10 +45,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
 		let signalClient = SignalingClient(serverUrl: defaultSignalingServerUrl)
 		let webRTCClient = WebRTCClient(iceServers: defaultIceServers)
-		let mainViewController = MainViewController(signalClient: signalClient,
+		let coordinator = WebRTCCoordinator(signalClient: signalClient,
 																								webRTCClient: webRTCClient)
 		
-		let navViewController = UINavigationController(rootViewController: mainViewController)
+		let navViewController = UINavigationController(rootViewController: coordinator)
 		navViewController.navigationBar.isTranslucent = false
 		if #available(iOS 11.0, *) {
 			navViewController.navigationBar.prefersLargeTitles = true

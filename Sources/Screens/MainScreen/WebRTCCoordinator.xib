@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController" customModule="WebRTC_Demo" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WebRTCCoordinator" customModule="WebRTC_Demo" customModuleProvider="target">
             <connections>
                 <outlet property="localCandidatesLabel" destination="8EY-e0-8HZ" id="nZJ-yH-B7n"/>
                 <outlet property="localSdpStatusLabel" destination="yay-HM-9I3" id="YuD-3y-dzO"/>

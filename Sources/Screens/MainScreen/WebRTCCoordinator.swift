@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  WebRTCCoordinator.swift
 //  WebRTC
 //
 //  Created by Stasel on 20/05/2018.
@@ -9,17 +9,10 @@
 import UIKit
 import AVFoundation
 
-class MainViewController: UIViewController {
+class WebRTCCoordinator: UIViewController {
 	
 	private let signalClient: SignalingClient
 	private let webRTCClient: WebRTCClient
-	
-	@IBOutlet private weak var signalingStatusLabel: UILabel?
-	@IBOutlet private weak var localSdpStatusLabel: UILabel?
-	@IBOutlet private weak var localCandidatesLabel: UILabel?
-	@IBOutlet private weak var remoteSdpStatusLabel: UILabel?
-	@IBOutlet private weak var remoteCandidatesLabel: UILabel?
-	@IBOutlet private weak var webRTCStatusLabel: UILabel?
 	
 	private var signalingConnected: Bool = false {
 		didSet {
@@ -62,10 +55,12 @@ class MainViewController: UIViewController {
 		}
 	}
 	
+	// MARK: - Life Cycle
+	
 	init(signalClient: SignalingClient, webRTCClient: WebRTCClient) {
 		self.signalClient = signalClient
 		self.webRTCClient = webRTCClient
-		super.init(nibName: String(describing: MainViewController.self), bundle: Bundle.main)
+		super.init(nibName: String(describing: WebRTCCoordinator.self), bundle: Bundle.main)
 	}
 	
 	@available(*, unavailable)
@@ -123,9 +118,18 @@ class MainViewController: UIViewController {
 		}))
 		present(alert, animated: true)
 	}
+	
+	// MARK: - Private UI
+	
+	@IBOutlet private weak var signalingStatusLabel: UILabel?
+	@IBOutlet private weak var localSdpStatusLabel: UILabel?
+	@IBOutlet private weak var localCandidatesLabel: UILabel?
+	@IBOutlet private weak var remoteSdpStatusLabel: UILabel?
+	@IBOutlet private weak var remoteCandidatesLabel: UILabel?
+	@IBOutlet private weak var webRTCStatusLabel: UILabel?
 }
 
-extension MainViewController: SignalClientDelegate {
+extension WebRTCCoordinator: SignalClientDelegate {
 	
 	func signalClientDidConnect(_ signalClient: SignalingClient) {
 		signalingConnected = true
@@ -149,7 +153,7 @@ extension MainViewController: SignalClientDelegate {
 	}
 }
 
-extension MainViewController: WebRTCClientDelegate {
+extension WebRTCCoordinator: WebRTCClientDelegate {
 	
 	func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate) {
 		print("discovered local candidate")

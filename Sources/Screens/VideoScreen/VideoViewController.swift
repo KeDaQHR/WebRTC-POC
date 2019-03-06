@@ -6,8 +6,6 @@
 //  Copyright © 2018 Stasel. All rights reserved.
 //
 
-import UIKit
-
 class VideoViewController: UIViewController {
 	
 	// MARK: - Outlet Functions
