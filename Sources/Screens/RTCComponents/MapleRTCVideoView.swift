@@ -26,6 +26,16 @@ class RTCVideoView: UIView {
 		}
 	}
 	
+	var isBlurViewHidden: Bool = false {
+		didSet {
+			// Make sure video is not blocked.
+			// Otherwise let video blocker take effect.
+			guard !isVideoBlocked else { return }
+			
+			blurView.isHidden = isBlurViewHidden
+		}
+	}
+	
 	// MARK: - Life Cycle
 	
 	override init(frame: CGRect) {

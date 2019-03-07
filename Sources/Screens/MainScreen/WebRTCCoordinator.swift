@@ -11,8 +11,12 @@ import AVFoundation
 
 class WebRTCCoordinator: UIViewController {
 	
+	// MARK: - Private Properties
+	
 	private let signalClient: SignalingClient
 	private let webRTCClient: WebRTCClient
+	
+	private var videoController: VideoViewController?
 	
 	private var signalingConnected: Bool = false {
 		didSet {
@@ -60,7 +64,7 @@ class WebRTCCoordinator: UIViewController {
 	init(signalClient: SignalingClient, webRTCClient: WebRTCClient) {
 		self.signalClient = signalClient
 		self.webRTCClient = webRTCClient
-		super.init(nibName: String(describing: WebRTCCoordinator.self), bundle: Bundle.main)
+		super.init(nibName: String(describing: WebRTCCoordinator.self), bundle: .main)
 	}
 	
 	@available(*, unavailable)
@@ -87,6 +91,8 @@ class WebRTCCoordinator: UIViewController {
 		navigationItem.leftBarButtonItem = hideButton
 	}
 	
+	// MARK: - Private functions
+	
 	@IBAction private func offerDidTap(_ sender: UIButton) {
 		webRTCClient.offer { sdp in
 			self.hasLocalSdp = true
@@ -102,25 +108,11 @@ class WebRTCCoordinator: UIViewController {
 	}
 	
 	@IBAction private func videoDidTap(_ sender: UIButton) {
-		let vc = VideoViewController(webRTCClient: webRTCClient)
-		present(vc, animated: true)
-	}
-	
-	@IBAction func sendDataDidTap(_ sender: UIButton) {
-		let alert = UIAlertController(title: "Send a message to the other peer",
-																	message: "This will be transferred over WebRTC data channel",
-																	preferredStyle: .alert)
-		alert.addTextField { textField in
-			textField.placeholder = "Message to send"
+		if videoController == nil {
+			videoController = VideoViewController(webRTCClient: webRTCClient)
 		}
-		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-		alert.addAction(UIAlertAction(title: "Send", style: .default, handler: { [weak self, unowned alert] _ in
-			guard let dataToSend = alert.textFields?.first?.text?.data(using: .utf8) else {
-				return
-			}
-			self?.webRTCClient.sendData(dataToSend)
-		}))
-		present(alert, animated: true)
+		guard let controller = videoController else { return }
+		present(controller, animated: true)
 	}
 	
 	@objc
@@ -175,16 +167,26 @@ extension WebRTCCoordinator: WebRTCClientDelegate {
 		switch state {
 		case .connected, .completed:
 			textColor = .green
+			DispatchQueue.main.async {
+				self.videoController?.isRemoteBlurViewHidden = true
+			}
 		case .disconnected:
 			textColor = .orange
+			DispatchQueue.main.async {
+				self.videoController?.isRemoteBlurViewHidden = false
+			}
 		case .failed, .closed:
 			textColor = .red
 		case .new, .checking, .count:
 			textColor = .black
+			DispatchQueue.main.async {
+				self.videoController?.isRemoteBlurViewHidden = false
+			}
 		}
 		DispatchQueue.main.async {
 			self.webRTCStatusLabel?.text = state.description.capitalized
 			self.webRTCStatusLabel?.textColor = textColor
+			self.videoController?.statusDescription = state.description.capitalized
 		}
 	}
 	
@@ -198,3 +200,24 @@ extension WebRTCCoordinator: WebRTCClientDelegate {
 	}
 }
 
+// MARK: - Send Data related functions that are not immediately needed.
+
+extension WebRTCCoordinator {
+	
+	@IBAction func sendDataDidTap(_ sender: UIButton) {
+		let alert = UIAlertController(title: "Send a message to the other peer",
+																	message: "This will be transferred over WebRTC data channel",
+																	preferredStyle: .alert)
+		alert.addTextField { textField in
+			textField.placeholder = "Message to send"
+		}
+		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+		alert.addAction(UIAlertAction(title: "Send", style: .default, handler: { [weak self, unowned alert] _ in
+			guard let dataToSend = alert.textFields?.first?.text?.data(using: .utf8) else {
+				return
+			}
+			self?.webRTCClient.sendData(dataToSend)
+		}))
+		present(alert, animated: true)
+	}
+}

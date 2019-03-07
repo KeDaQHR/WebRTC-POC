@@ -304,6 +304,10 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
 		debugPrint("peerConnection did open data channel")
 		remoteDataChannel = dataChannel
 	}
+	
+	func peerConnection(_ peerConnection: RTCPeerConnection, didRemove rtpReceiver: RTCRtpReceiver) {
+		debugPrint("peerConnection did remove receiver \(rtpReceiver.track.debugDescription)")
+	}
 }
 
 // MARK: - RTCDataChannel Functions and Delegates

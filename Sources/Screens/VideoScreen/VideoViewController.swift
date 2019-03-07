@@ -63,17 +63,25 @@ class VideoViewController: UIViewController {
 		}
 	}
 	
-	// Set this to update remote video block/unblock status
+	// Set this to update remoteView video block/unblock status
 	var isRemoteVideoBlocked: Bool = false {
 		didSet {
 			remoteVideoView?.isVideoBlocked = isRemoteVideoBlocked
 		}
 	}
 	
-	// Set this to update remote audio block/unblock status
+	// Set this to update remoteView audio block/unblock status
 	var isRemoteAudioBlocked: Bool = false {
 		didSet {
 			remoteVideoView?.isAudioBlocked = isRemoteAudioBlocked
+		}
+	}
+	
+	// Set this to update remoteView blurView show/hide status
+	// remoteView blurView will show for reconnection and maybe other cases
+	var isRemoteBlurViewHidden: Bool = true {
+		didSet {
+			remoteVideoView?.isBlurViewHidden = isRemoteBlurViewHidden
 		}
 	}
 	
