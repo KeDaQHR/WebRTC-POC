@@ -70,7 +70,7 @@ class WebRTCCoordinator: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		title = "WebRTC Demo"
+		title = "Waiting Room"
 		signalingConnected = false
 		hasLocalSdp = false
 		hasRemoteSdp = false
@@ -81,6 +81,10 @@ class WebRTCCoordinator: UIViewController {
 		signalClient.connect()
 		webRTCClient.delegate = self
 		signalClient.delegate = self
+		
+		// Add hide button
+		let hideButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(hideButtonTapped))
+		navigationItem.leftBarButtonItem = hideButton
 	}
 	
 	@IBAction private func offerDidTap(_ sender: UIButton) {
@@ -117,6 +121,11 @@ class WebRTCCoordinator: UIViewController {
 			self?.webRTCClient.sendData(dataToSend)
 		}))
 		present(alert, animated: true)
+	}
+	
+	@objc
+	private func hideButtonTapped() {
+		dismiss(animated: true)
 	}
 	
 	// MARK: - Private UI

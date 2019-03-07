@@ -24,17 +24,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 									 didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		let window = UIWindow(frame: UIScreen.main.bounds)
 		
+		let initalPage = buildInitialPage()
+		window.rootViewController = initalPage
+		window.makeKeyAndVisible()
+		self.window = window
+		return true
+	}
+	
+	private func buildInitialPage() -> UIViewController {
 		let IPInputPage = IPInputController()
 		IPInputPage.onContinuePerformed = { [weak self] ipAddress in
 			guard let self = self else { return }
 			guard let mainPage = self.buildCoordinator(with: ipAddress) else { return }
-			window.rootViewController?.present(mainPage, animated: true)
+			IPInputPage.present(mainPage, animated: true)
 		}
 		
-		window.rootViewController = IPInputPage
-		window.makeKeyAndVisible()
-		self.window = window
-		return true
+		let navViewController = UINavigationController(rootViewController: IPInputPage)
+		navViewController.navigationBar.isTranslucent = false
+		if #available(iOS 11.0, *) {
+			navViewController.navigationBar.prefersLargeTitles = true
+		}
+		return navViewController
 	}
 	
 	private func buildCoordinator(with IPAddress: String) -> UIViewController? {
@@ -46,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let signalClient = SignalingClient(serverUrl: defaultSignalingServerUrl)
 		let webRTCClient = WebRTCClient(iceServers: defaultIceServers)
 		let coordinator = WebRTCCoordinator(signalClient: signalClient,
-																								webRTCClient: webRTCClient)
+																				webRTCClient: webRTCClient)
 		
 		let navViewController = UINavigationController(rootViewController: coordinator)
 		navViewController.navigationBar.isTranslucent = false

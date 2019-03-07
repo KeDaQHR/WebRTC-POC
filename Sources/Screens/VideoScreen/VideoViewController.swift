@@ -83,14 +83,14 @@ class VideoViewController: UIViewController {
 	
 	private var isSpeakerOn: Bool = true {
 		didSet {
-			let title = "Speaker: \(isSpeakerOn ? "On" : "Off" )"
+			let title = "Speaker: \(isSpeakerOn ? "On" : "Off")"
 			speakerStatusButton?.setTitle(title, for: .normal)
 		}
 	}
 	
 	private var isFrontCamera: Bool = true {
 		didSet {
-			let title = "Camera: \(isFrontCamera ? "Front" : "Back" )"
+			let title = "Camera: \(isFrontCamera ? "Front" : "Back")"
 			cameraPositionButton.setTitle(title, for: .normal)
 		}
 	}
