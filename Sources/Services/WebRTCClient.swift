@@ -209,7 +209,6 @@ extension WebRTCClient {
 		audioQueue.async { [weak self] in
 			self?.rtcAudioSession.lockForConfiguration()
 			do {
-				try self?.rtcAudioSession.setCategory(AVAudioSession.Category.playAndRecord.rawValue)
 				try self?.rtcAudioSession.overrideOutputAudioPort(.none)
 			} catch let error {
 				debugPrint("Error setting AVAudioSession category: \(error)")
@@ -223,9 +222,7 @@ extension WebRTCClient {
 		audioQueue.async { [weak self] in
 			self?.rtcAudioSession.lockForConfiguration()
 			do {
-				try self?.rtcAudioSession.setCategory(AVAudioSession.Category.playAndRecord.rawValue)
 				try self?.rtcAudioSession.overrideOutputAudioPort(.speaker)
-				try self?.rtcAudioSession.setActive(true)
 			} catch let error {
 				debugPrint("Couldn't force audio to speaker: \(error)")
 			}

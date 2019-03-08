@@ -154,6 +154,9 @@ class VideoViewController: UIViewController {
 		isAudioBlocked = false
 		isVideoBlocked = false
 		
+		// Turn on speaker by default
+		webRTCClient.speakerOn()
+		
 		// Beautify localVideoView border
 		localVideoViewContainer.clipsToBounds = true
 		localVideoViewContainer.layer.borderWidth = 2.0
