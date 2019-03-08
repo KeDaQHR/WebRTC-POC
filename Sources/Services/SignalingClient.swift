@@ -38,7 +38,7 @@ final class SignalingClient {
 			let dataMessage = try encoder.encode(message)
 			socket.write(data: dataMessage)
 		} catch {
-			debugPrint("Warning: Could not encode sdp: \(error)")
+			debugPrint(" --- Warning: Could not encode sdp: \(error)")
 		}
 	}
 	
@@ -48,7 +48,7 @@ final class SignalingClient {
 			let dataMessage = try encoder.encode(message)
 			socket.write(data: dataMessage)
 		} catch {
-			debugPrint("Warning: Could not encode candidate: \(error)")
+			debugPrint(" --- Warning: Could not encode candidate: \(error)")
 		}
 	}
 }
@@ -64,7 +64,7 @@ extension SignalingClient: WebSocketDelegate {
 		
 		// try to reconnect every two seconds
 		DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
-			debugPrint("Trying to reconnect to signaling server...")
+			debugPrint(" --- Trying to reconnect to signaling server...")
 			self.socket.connect()
 		}
 	}
@@ -74,7 +74,7 @@ extension SignalingClient: WebSocketDelegate {
 		do {
 			message = try decoder.decode(Message.self, from: data)
 		} catch {
-			debugPrint("Warning: Could not decode incoming message: \(error)")
+			debugPrint(" --- Warning: Could not decode incoming message: \(error)")
 			return
 		}
 		

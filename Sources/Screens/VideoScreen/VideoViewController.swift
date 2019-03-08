@@ -127,7 +127,7 @@ class VideoViewController: UIViewController {
 	}
 	
 	deinit {
-		debugPrint("--- VideoViewController is gone")
+		debugPrint(" --- VideoViewController is gone")
 	}
 	
 	@available(*, unavailable)
