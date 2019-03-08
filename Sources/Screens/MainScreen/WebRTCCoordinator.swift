@@ -175,7 +175,12 @@ extension WebRTCCoordinator: WebRTCClientDelegate {
 			DispatchQueue.main.async {
 				self.videoController?.isRemoteBlurViewHidden = false
 			}
-		case .failed, .closed:
+		case .closed:
+			textColor = .red
+			DispatchQueue.main.async {
+				self.dismiss(animated: true)
+			}
+		case .failed:
 			textColor = .red
 		case .new, .checking, .count:
 			textColor = .black

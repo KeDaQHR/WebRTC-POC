@@ -42,7 +42,7 @@ class VideoViewController: UIViewController {
 	}
 	
 	@IBAction private func endCallButtonTapped(_ sender: Any) {
-		//TODO: End call
+		webRTCClient.completeCall()
 	}
 	
 	@IBAction func audioStatusToggled(_ sender: Any) {

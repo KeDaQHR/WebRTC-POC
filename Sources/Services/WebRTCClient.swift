@@ -70,35 +70,8 @@ final class WebRTCClient: NSObject {
 		self.peerConnection.delegate = self
 	}
 	
-	// MARK: - Signaling
-	func offer(completion: @escaping (_ sdp: RTCSessionDescription) -> Void) {
-		let constrains = RTCMediaConstraints(mandatoryConstraints: mediaConstrains,
-																				 optionalConstraints: nil)
-		peerConnection.offer(for: constrains) { [weak self] sdp, error in
-			guard let sdp = sdp else { return }
-			self?.peerConnection.setLocalDescription(sdp, completionHandler: { error in
-				completion(sdp)
-			})
-		}
-	}
-	
-	func answer(completion: @escaping (_ sdp: RTCSessionDescription) -> Void)  {
-		let constrains = RTCMediaConstraints(mandatoryConstraints: mediaConstrains,
-																				 optionalConstraints: nil)
-		peerConnection.answer(for: constrains) { [weak self] sdp, error in
-			guard let sdp = sdp else { return }
-			self?.peerConnection.setLocalDescription(sdp, completionHandler: { (error) in
-				completion(sdp)
-			})
-		}
-	}
-	
-	func set(remoteSdp: RTCSessionDescription, completion: @escaping (Error?) -> ()) {
-		peerConnection.setRemoteDescription(remoteSdp, completionHandler: completion)
-	}
-	
-	func set(remoteCandidate: RTCIceCandidate) {
-		peerConnection.add(remoteCandidate)
+	func completeCall() {
+		peerConnection.close()
 	}
 	
 	// MARK: Media
@@ -190,6 +163,40 @@ final class WebRTCClient: NSObject {
 		#endif
 		let videoTrack = WebRTCClient.factory.videoTrack(with: videoSource, trackId: "video0")
 		return videoTrack
+	}
+}
+
+// MARK: - Signaling
+extension WebRTCClient {
+	
+	func offer(completion: @escaping (_ sdp: RTCSessionDescription) -> Void) {
+		let constrains = RTCMediaConstraints(mandatoryConstraints: mediaConstrains,
+																				 optionalConstraints: nil)
+		peerConnection.offer(for: constrains) { [weak self] sdp, error in
+			guard let sdp = sdp else { return }
+			self?.peerConnection.setLocalDescription(sdp, completionHandler: { error in
+				completion(sdp)
+			})
+		}
+	}
+	
+	func answer(completion: @escaping (_ sdp: RTCSessionDescription) -> Void)  {
+		let constrains = RTCMediaConstraints(mandatoryConstraints: mediaConstrains,
+																				 optionalConstraints: nil)
+		peerConnection.answer(for: constrains) { [weak self] sdp, error in
+			guard let sdp = sdp else { return }
+			self?.peerConnection.setLocalDescription(sdp, completionHandler: { (error) in
+				completion(sdp)
+			})
+		}
+	}
+	
+	func set(remoteSdp: RTCSessionDescription, completion: @escaping (Error?) -> ()) {
+		peerConnection.setRemoteDescription(remoteSdp, completionHandler: completion)
+	}
+	
+	func set(remoteCandidate: RTCIceCandidate) {
+		peerConnection.add(remoteCandidate)
 	}
 }
 
