@@ -24,6 +24,6 @@ class IPInputController: UIViewController {
 		
 		title = "WebRTC Demo"
 		// Default IP address
-		IPInputField.text = "192.168.45.115:8080"
+		IPInputField.text = "192.168.1.118:8080"
 	}
 }

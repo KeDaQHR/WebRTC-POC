@@ -28,15 +28,20 @@ final class WebRTCClient: NSObject {
 	
 	weak var delegate: WebRTCClientDelegate?
 	private let peerConnection: RTCPeerConnection
+	
 	private let rtcAudioSession = RTCAudioSession.sharedInstance()
 	private let audioQueue = DispatchQueue(label: "audio")
+	private var localAudioTrack: RTCAudioTrack?
+	
 	private let mediaConstrains = [kRTCMediaConstraintsOfferToReceiveAudio: kRTCMediaConstraintsValueTrue,
 																 kRTCMediaConstraintsOfferToReceiveVideo: kRTCMediaConstraintsValueTrue]
+	
 	private var videoCapturer: RTCVideoCapturer?
 	private var localVideoRenderer: RTCVideoRenderer?
-	private var remoteVideoRenderer: RTCVideoRenderer?
 	private var localVideoTrack: RTCVideoTrack?
+	private var remoteVideoRenderer: RTCVideoRenderer?
 	private var remoteVideoTrack: RTCVideoTrack?
+	
 	private var localDataChannel: RTCDataChannel?
 	private var remoteDataChannel: RTCDataChannel?
 	
@@ -65,7 +70,7 @@ final class WebRTCClient: NSObject {
 		self.peerConnection.delegate = self
 	}
 	
-	// MARK: Signaling
+	// MARK: - Signaling
 	func offer(completion: @escaping (_ sdp: RTCSessionDescription) -> Void) {
 		let constrains = RTCMediaConstraints(mandatoryConstraints: mediaConstrains,
 																				 optionalConstraints: nil)
@@ -141,7 +146,7 @@ final class WebRTCClient: NSObject {
 		rtcAudioSession.lockForConfiguration()
 		do {
 			try rtcAudioSession.setCategory(AVAudioSession.Category.playAndRecord.rawValue)
-			try rtcAudioSession.setMode(AVAudioSession.Mode.voiceChat.rawValue)
+			try rtcAudioSession.setMode(AVAudioSession.Mode.videoChat.rawValue)
 		} catch let error {
 			debugPrint("Error changeing AVAudioSession category: \(error)")
 		}
@@ -153,6 +158,7 @@ final class WebRTCClient: NSObject {
 		
 		// Audio
 		let audioTrack = createAudioTrack()
+		localAudioTrack = audioTrack
 		peerConnection.add(audioTrack, streamIds: [streamId])
 		
 		// Video
@@ -177,13 +183,11 @@ final class WebRTCClient: NSObject {
 	
 	private func createVideoTrack() -> RTCVideoTrack {
 		let videoSource = WebRTCClient.factory.videoSource()
-		
 		#if TARGET_OS_SIMULATOR
-		self.videoCapturer = RTCFileVideoCapturer(delegate: videoSource)
+		videoCapturer = RTCFileVideoCapturer(delegate: videoSource)
 		#else
-		self.videoCapturer = RTCCameraVideoCapturer(delegate: videoSource)
+		videoCapturer = RTCCameraVideoCapturer(delegate: videoSource)
 		#endif
-		
 		let videoTrack = WebRTCClient.factory.videoTrack(with: videoSource, trackId: "video0")
 		return videoTrack
 	}
@@ -193,11 +197,11 @@ final class WebRTCClient: NSObject {
 extension WebRTCClient {
 	
 	func muteAudio() {
-		setAudioEnabled(false)
+		localAudioTrack?.isEnabled = false
 	}
 	
 	func unmuteAudio() {
-		setAudioEnabled(true)
+		localAudioTrack?.isEnabled = true
 	}
 	
 	// Fallback to the default playing device: headphones/bluetooth/ear speaker
@@ -228,22 +232,17 @@ extension WebRTCClient {
 			self?.rtcAudioSession.unlockForConfiguration()
 		}
 	}
-	
-	private func setAudioEnabled(_ isEnabled: Bool) {
-		let audioTracks = peerConnection.transceivers.compactMap { return $0.sender.track as? RTCAudioTrack }
-		audioTracks.forEach { $0.isEnabled = isEnabled }
-	}
 }
 
 // MARK:- Video control
 extension WebRTCClient {
 	
 	func disableVideo() {
-		setVideoEnabled(false)
+		localVideoTrack?.isEnabled = false
 	}
 	
 	func enableVideo() {
-		setVideoEnabled(true)
+		localVideoTrack?.isEnabled = true
 	}
 	
 	func useFrontCamera() {
@@ -256,11 +255,6 @@ extension WebRTCClient {
 		guard let renderer = localVideoRenderer else { return }
 		stopCaptureLocalVideo(renderer: renderer)
 		startCaptureLocalVideo(renderer: renderer, cameraPoistion: .back)
-	}
-	
-	private func setVideoEnabled(_ isEnabled: Bool) {
-		let videoTracks = peerConnection.transceivers.compactMap { return $0.sender.track as? RTCVideoTrack }
-		videoTracks.forEach { $0.isEnabled = isEnabled }
 	}
 }
 
